@@ -20,8 +20,8 @@ public class DAO {
 	private String sqlQuery = null; 
 	@Getter
 	private String nomeTabela = null; 
-	private String nomeBanco = "gestaodecontratos";
-	private String usuarioBanco = "gestaodecontratos"; 
+	private String nomeBanco = "valetransporte";
+	private String usuarioBanco = "valetransporte"; 
 	private String senhaBanco = "suporte2017";
 	private String ip = "localhost";
 	@Getter @Setter

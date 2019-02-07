@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import dao.UsuarioDAO;
 import entity.Usuario;
+import utilidades.Cripto;
 
 @WebServlet("/login")
 public class Login extends HttpServlet{
@@ -29,7 +30,7 @@ public class Login extends HttpServlet{
 
 		// criptografa senha digitada. A comparação é feita com as senhas
 		// criptografadas
-		String senha = /*new Cripto().criptografa(*/pedido.getParameter("senha")/*)*/;
+		String senha = new Cripto().criptografa(pedido.getParameter("senha"));
 
 		System.out.println(senha + " " + u.getNome());
 		if (u != null && senha.equals(u.getSenha())) {

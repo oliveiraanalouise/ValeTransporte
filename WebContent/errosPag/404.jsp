@@ -7,18 +7,20 @@
 </head>
 
 <body>
-	<div class="container" align="center">
-		<div align="center">
-			<img class="img-fluid" src="img/logo-ctb.png" />			
-		</div>
-		<br />
+	<div style="position: absolute; top: 20%; width: 100%;">
+		<div class="container" align="center">
+			<div align="center">
+				<img class="img-fluid" src="img/logo-ctb.png" />
+			</div>
+			<br />
 
-		<h1>404 - Página não existe</h1> 
-		<br /><br />
-		<p>
-			Para voltar para a página principal clique <a href="telalogin">aqui</a>
-		</p>		
+			<h1>404 - Página não existe</h1>
+			<br />
+			<br />
+			<p>
+				Para voltar para a página principal clique <a href="telalogin">aqui</a>
+			</p>
+		</div>
 	</div>
-	
 	<jsp:include page="/adds/rodape.jsp"></jsp:include>
 </body>

@@ -1,5 +1,8 @@
 <!DOCTYPE html>
 <html>
+<head>
+<link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+</head>
 <style>
 .footer {
    position: fixed;
@@ -14,7 +17,7 @@
 
 <body>
 	<br /><br />
-	<footer class="footer">
+	<footer style="width: 100%;position: fixed;bottom: 0;" class="page-footer bg-secondary text-center text-white" >
 		Vale Transporte - Versão 0.1
 	</footer>
 </body>

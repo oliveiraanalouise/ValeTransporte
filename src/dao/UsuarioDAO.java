@@ -10,7 +10,9 @@ public class UsuarioDAO extends DAO{
 			 colunaNome = getNomeTabela() + ".nome", 
 			 colunaLogin = getNomeTabela() + ".login",
 			 colunaSenha = getNomeTabela() + ".senha",
-			 colunaSupervisor = getNomeTabela() + ".supervisor";
+			 colunaSupervisor = getNomeTabela() + ".supervisor",
+			 colunaNomeSupervisor = getNomeTabela() + "2" + ".nome",
+			 colunaIdSupervisor = getNomeTabela() + "2" + ".id";
 	private static final String tabela = "usuario";
 	
 	public UsuarioDAO() {
@@ -23,20 +25,13 @@ public class UsuarioDAO extends DAO{
 
 	public Usuario getByEmail(String email) {
 		iniciaConexaoComBanco();
-		
-/*		
- 		Exemplo de query para esse método
- 		
- 		select * from usuario where usuario.login = ?";
- 		depois busca setor e cargo através do resultado do usuario
- 		
-*/
+
 		Usuario u = null;
 		
 //		monta a query
 		setSqlQuery(
-//			SELECT usuario.id, usuario.nome, usuario.login, usuario.senha, usuario.supervisor, u2.nome FROM usuario inner join usuario as u2 on usuario.supervisor=u2.id;
-			"select * from " + getNomeTabela() + " where " + colunaLogin + " = ?"
+			"select " + colunaId + ", " + colunaNome + ", " + colunaLogin + ", " + colunaSenha + ", " + colunaNomeSupervisor + " FROM "+getNomeTabela()+" inner join "+getNomeTabela()+" as "+getNomeTabela()+"2 on "+ colunaSupervisor+"="+colunaIdSupervisor+" where "+colunaLogin+" = ?"
+//			"select * from " + getNomeTabela() + " where " + colunaLogin + " = ?"
 		);
 		
 		try {
@@ -57,24 +52,18 @@ public class UsuarioDAO extends DAO{
 			setResultado(
 				getStatement().executeQuery()
 			);
-			
-			if(getResultado().next()){
+
+			if (getResultado().next()) {
 				u = new Usuario(
-					getResultado().getInt(
-						colunaId
-					),
-					getResultado().getString(
-						colunaNome
-					),
-					getResultado().getString(
-						colunaLogin
-					),
-					getResultado().getString(
-						colunaSenha
-					),				
-					""
+					getResultado().getInt(colunaId),
+					getResultado().getString(colunaNome),
+					getResultado().getString(colunaLogin), 
+					getResultado().getString(colunaSenha), 
+					getResultado().getString(colunaNomeSupervisor)
 				);
-			}
+			} else
+				u = new Usuario();
+			
 		} catch(SQLException e) {
 			e.printStackTrace();
 			u = new Usuario();

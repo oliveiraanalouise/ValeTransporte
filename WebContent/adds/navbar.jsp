@@ -1,12 +1,38 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
+	pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+<meta charset="ISO-8859-1" />
 </head>
-<body>
+<nav class="navbar navbar-expand-sm navbar-dark bg-secondary mb-1">
+	<a class="navbar-item" href="voltarpagina"><img
+		src="img/3b9a523e0eb6840e359da020a0d9d01a.png" class="img-fluid" width="35" height="35"></a>
+		
+	<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+		<li class="nav-item active"><a class="nav-link"
+			href="telaprincipal">Home</a></li>
 
-</body>
+
+	</ul>
+	<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+		<li class="nav-item active text-white">${sessionScope.usuario.nome }</li>
+
+
+	</ul>
+	<ul class="navbar-nav">
+		<li class="nav-item active"><a class="nav-link" href="logout">Sair</a></li>
+	</ul>
+	<%-- <div class="container-fluid">
+		<ul class="navbar-nav">
+			<li class="text-center nav-item col-md-1"><h3>
+					<i>${sessionScope.usuario.nome} </i>
+				</h3></li>
+			<li class="text-right nav-item col-md-1"><h3>
+					<i>${sessionScope.usuario.supervisor } </i>
+				</h3></li>
+		</ul>
+
+	</div> --%>
+</nav>
 </html>
