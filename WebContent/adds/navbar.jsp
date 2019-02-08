@@ -10,15 +10,13 @@
 		src="img/3b9a523e0eb6840e359da020a0d9d01a.png" class="img-fluid" width="35" height="35"></a>
 		
 	<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-		<li class="nav-item active"><a class="nav-link"
-			href="telaprincipal">Home</a></li>
-
-
+		<li class="nav-item active"><a class="nav-link" href="telaprincipal">Home</a></li>
 	</ul>
 	<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
 		<li class="nav-item active text-white">${sessionScope.usuario.nome }</li>
-
-
+	</ul>
+	<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+		<li class="nav-item active text-white">Vales: ${sessionScope.quantVales }</li>
 	</ul>
 	<ul class="navbar-nav">
 		<li class="nav-item active"><a class="nav-link" href="logout">Sair</a></li>

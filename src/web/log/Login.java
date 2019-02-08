@@ -1,4 +1,4 @@
-package web.index;
+package web.log;
 
 import java.io.IOException;
 
@@ -8,7 +8,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import dao.TurnoDAO;
 import dao.UsuarioDAO;
+import entity.Turno;
 import entity.Usuario;
 import utilidades.Cripto;
 
@@ -55,6 +57,13 @@ public class Login extends HttpServlet{
 		// Coloca os dados do usuário na sessão
 		pedido.getSession().setAttribute("usuario", u);
 		
+		Turno t = new TurnoDAO().getUltimo();
+		//busca quantidade de vales
+		if(t.getTurno() == null)		
+			t.setConcluido(true);
+			
+		pedido.getSession().setAttribute("estadoTurno", t.isConcluido());
+		pedido.getSession().setAttribute("quantVales", t.getQuantVales());
 		// Manda mostrar a tela principal
 		pedido.getRequestDispatcher("/telaprincipal").forward(pedido, resposta);
 	}

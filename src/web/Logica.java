@@ -19,4 +19,8 @@ public abstract class Logica extends HttpServlet{
 	protected void redireciona(String page, HttpServletRequest pedido, HttpServletResponse resposta) throws ServletException, IOException {
 		pedido.getRequestDispatcher(page).forward(pedido, resposta);
 	}
+	
+	protected void redirecionaIndex(HttpServletRequest pedido, HttpServletResponse resposta) throws ServletException, IOException {
+		pedido.getRequestDispatcher("telaprincipal").forward(pedido, resposta);
+	}
 }

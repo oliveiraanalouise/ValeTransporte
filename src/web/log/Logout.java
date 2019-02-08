@@ -1,4 +1,4 @@
-package web.index;
+package web.log;
 
 import java.io.IOException;
 
