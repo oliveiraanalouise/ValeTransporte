@@ -7,30 +7,22 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.joda.time.DateTime;
-
 import dao.TurnoDAO;
 import entity.Turno;
-import entity.Usuario;
 
-@WebServlet("/iniciarturno")
-public class IniciarTurno extends Logica{
+@WebServlet("/encerrarturno")
+public class EncerrarTurno extends Logica{
 	private static final long serialVersionUID = 1L;
 
 	@Override
 	protected void service(HttpServletRequest pedido, HttpServletResponse resposta) throws ServletException, IOException {
-		String quantVales = (String) pedido.getParameter("quantVales");
+		Turno t = (Turno) pedido.getSession().getAttribute("turno");
+		t.setConcluido(true);
 		
-		Turno t = new Turno(
-			0,
-			Integer.parseInt(quantVales),
-			((Usuario) pedido.getSession().getAttribute("usuario")).getId(),
-			new DateTime(),			
-			(String) pedido.getParameter("periodo"),
-			false
-		);
+		new TurnoDAO().atualizar(t);
 		
-		new TurnoDAO().inserir(t);
+		t.resetTurno();
+		
 		pedido.getSession().setAttribute("turno", t);
 		
 		redirecionaIndex(pedido, resposta);

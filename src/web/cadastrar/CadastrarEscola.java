@@ -1,4 +1,4 @@
-package web.tela;
+package web.cadastrar;
 
 import java.io.IOException;
 
@@ -7,19 +7,23 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import entity.Usuario;
+import dao.EscolaDAO;
+import entity.Escola;
 import web.Logica;
 
-@WebServlet("/telaprincipal")
-public class TelaPrincipal extends Logica{
+@WebServlet("/cadastrarescola")
+public class CadastrarEscola extends Logica{
 	private static final long serialVersionUID = 1L;
 
+	@Override
 	protected void service(HttpServletRequest pedido, HttpServletResponse resposta) throws ServletException, IOException {
-		Usuario u = (Usuario) pedido.getSession().getAttribute("usuario");
+		Escola e = new Escola(
+			0,
+			pedido.getParameter("nome")
+		);
 		
-		if(u!=null) 
-			redireciona("logado/index.jsp", pedido, resposta);
-		else
-			redireciona("erro403", pedido, resposta);
+		new EscolaDAO().inserir(e);
+		
+		
 	}
 }

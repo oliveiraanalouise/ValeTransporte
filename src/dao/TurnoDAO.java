@@ -14,8 +14,8 @@ public class TurnoDAO extends DAO {
 		colunaTurno = getNomeTabela() + ".turno", 
 		colunaQuantVales = getNomeTabela() + ".quantidadeVales",
 		colunaConcluido = getNomeTabela() + ".concluido",
-		colunaIdVendedor = getNomeTabela() + ".vendedor",
-		colunaNomeVendedor = new UsuarioDAO().getNomeTabela()+".nome";
+		colunaIdVendedor = getNomeTabela() + ".vendedor"/*,
+		colunaNomeVendedor = new UsuarioDAO().getNomeTabela()+".nome"*/;
 
 	public TurnoDAO() {
 		super("turno");
@@ -89,5 +89,38 @@ public class TurnoDAO extends DAO {
 		
 		encerraConexaocomBanco();
 		return t;
+	}
+
+	public void atualizar(Turno t) {
+		iniciaConexaoComBanco();
+		
+		setSqlQuery(
+			"update "+getNomeTabela()+" set "+ 
+			colunaData + " = ?, " +
+			colunaTurno + " = ?, " +
+			colunaQuantVales + " = ?, " +
+			colunaIdVendedor + " = ?, " +
+			colunaConcluido	+ " = ? where " +
+			colunaId + " = ?"
+		);
+		
+		try {
+			setStatement(getDbConnection().prepareStatement(getSqlQuery()));
+			
+			int posicao = 1;
+			
+			getStatement().setDate(posicao, new Date(t.getData().toDate().getTime()));
+			getStatement().setString(++posicao, t.getTurno());
+			getStatement().setInt(++posicao, t.getQuantVales());
+			getStatement().setInt(++posicao, t.getIdVendedor());
+			getStatement().setBoolean(++posicao, t.isConcluido());
+			getStatement().setInt(++posicao, t.getId());
+			
+			getStatement().executeUpdate();
+		} catch(SQLException e) {
+			e.printStackTrace();
+		}
+		
+		encerraConexaocomBanco();
 	}
 }

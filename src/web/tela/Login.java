@@ -11,7 +11,7 @@ import entity.Usuario;
 import web.Logica;
 
 @WebServlet("/telalogin")
-public class TelaLogin extends Logica{
+public class Login extends Logica{
 	private static final long serialVersionUID = 4555805421904310654L;
 
 	@Override

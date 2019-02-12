@@ -15,4 +15,8 @@ public class Turno {
 	String turno/*, nomeVendedor*/;
 	@Setter
 	boolean concluido;
+	
+	public void resetTurno() {
+		this.turno = "Encerrado";
+	}
 }

@@ -58,12 +58,17 @@ public class Login extends HttpServlet{
 		pedido.getSession().setAttribute("usuario", u);
 		
 		Turno t = new TurnoDAO().getUltimo();
-		//busca quantidade de vales
-		if(t.getTurno() == null)		
+
+		if(t.getTurno() == null) {		
 			t.setConcluido(true);
+			t.resetTurno();
+		}
+		
+		if(t.isConcluido()) {
+			t.resetTurno();
+		}
 			
-		pedido.getSession().setAttribute("estadoTurno", t.isConcluido());
-		pedido.getSession().setAttribute("quantVales", t.getQuantVales());
+		pedido.getSession().setAttribute("turno", t);
 		// Manda mostrar a tela principal
 		pedido.getRequestDispatcher("/telaprincipal").forward(pedido, resposta);
 	}
