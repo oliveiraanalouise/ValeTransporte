@@ -20,6 +20,6 @@ public class Principal extends Logica{
 		if(u!=null) 
 			redireciona("logado/index.jsp", pedido, resposta);
 		else
-			redireciona("erro403", pedido, resposta);
+			redireciona("erro402", pedido, resposta);
 	}
 }
