@@ -30,18 +30,20 @@ public class CadastrarEscola extends Logica{
 		ComparadorNome cn = new ComparadorNome();
 		int posicao = 0, i = 0;		
 		
-		while(i < escolas.size() || !ok) {
-			if (cn.compare(escolas.get(posicao), e) >= 0) {
-				ok = true;
-				i = escolas.size()-1;
+		//vai procurar em qual posição da lista essa escola será inserida
+		for(Escola escola: escolas) {
+			if (cn.compare(escola, e) >= 0 && !ok) { 
+				ok = true; //marca que já achou a posição
 				posicao = i;
 			}
 			
 			++i;
 		}
-			
+		
+		//insere no banco e atualiza o id no objeto
+		e.setId(new EscolaDAO().inserir(e));
 		escolas.add(posicao,e);
-//		new EscolaDAO().inserir(e);
+		
 		
 		pedido.getSession().setAttribute("escolas", escolas);
 		pedido.setAttribute("escolaRegistrada", e);

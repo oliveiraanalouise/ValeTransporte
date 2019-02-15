@@ -18,8 +18,7 @@
 	
 	<form action="cadastrarescola">
 		<div class="form-group">
-			<input type="text" placeholder="Nome" class="form-control"
-				name="nome">
+			<input type="text" placeholder="Nome" class="form-control" name="nome">
 		</div>
 		<div class="form-group container-fluid">
 			<button type="submit" class="btn btn-primary btn-block btn-lg">Cadastrar</button>

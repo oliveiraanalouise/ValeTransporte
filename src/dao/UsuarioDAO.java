@@ -72,7 +72,4 @@ public class UsuarioDAO extends DAO{
 		encerraConexaocomBanco();
 		return u;
 	}
-	
-	
-
 }

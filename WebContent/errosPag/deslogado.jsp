@@ -18,9 +18,9 @@
 			<br />
 			<br />
 			<p>
-				Você ficou um tempo sem interagir com o sistema e ficou desconectado automaticamente. Por favor, refaça o login.
+				Você ficou um tempo sem interagir com o sistema e foi desconectado automaticamente. Por favor, refaça o login.
 			<p>
-				Para voltar para a página principal clique <a href="telalogin">aqui</a>
+				Para voltar para a página principal clique <a href="logout">aqui</a>
 			</p>
 		</div>
 	</div>

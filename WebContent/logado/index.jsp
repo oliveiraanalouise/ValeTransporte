@@ -1,7 +1,5 @@
 <!-- index do usuário -->
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -32,10 +30,8 @@
 		</c:when>
 		</c:choose>
 	
-	<button type="button" class="btn btn-primary btn-block btn-lg"
-				data-toggle="modal" data-target="#modalCadastrarAluno">
-				Cadastrar aluno</button>
-	<a class="btn btn-primary btn-block btn-lg" href="telacadastrarescola">Cadastrar escola</a>
+	<a class="btn btn-primary btn-block btn-lg" href="telacadastraraluno">Cadastrar aluno</a>
+	<a class="btn btn-primary btn-block btn-lg" href="telacadastrarescola">Cadastrar/consultar escola</a>
 	<c:if test="${!sessionScope.turno.concluido}">
 		<button type="button" class="btn btn-danger btn-block btn-lg"
 			data-toggle="modal" data-target="#modalEncerrarTurno">

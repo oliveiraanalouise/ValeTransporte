@@ -1,12 +1,14 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+<link rel="stylesheet" type="text/css" href="css/style.css" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.js"></script>
+<script src="js/bootstrap.js" type="text/javascript"></script>
 </head>
-<nav class="navbar navbar-expand-sm navbar-dark bg-secondary mb-1">
+
+<nav class="navbar navbar-expand-sm navbar-dark bg-bar mb-1">
 	<a class="navbar-item" href="voltarpagina"><img
 		src="img/voltar.png" class="img-fluid"></a>
 		
@@ -62,16 +64,5 @@
 			</div>
 		</div>
 	</div>
-	<%-- <div class="container-fluid">
-		<ul class="navbar-nav">
-			<li class="text-center nav-item col-md-1"><h3>
-					<i>${sessionScope.usuario.nome} </i>
-				</h3></li>
-			<li class="text-right nav-item col-md-1"><h3>
-					<i>${sessionScope.usuario.supervisor } </i>
-				</h3></li>
-		</ul>
-
-	</div> --%>
 </nav>
 </html>

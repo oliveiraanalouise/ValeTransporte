@@ -32,7 +32,8 @@ public class ComparadorNome implements Comparator<Object> {
 		}
 		
 		//compara as strings e retorna o resultado
-		return s1.compareToIgnoreCase(s2);
+		int r =s1.compareToIgnoreCase(s2); 
+		return r;
 	}
 
 }
