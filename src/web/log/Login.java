@@ -1,21 +1,24 @@
 package web.log;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import dao.TurnoDAO;
 import dao.UsuarioDAO;
+import dao.VendaDAO;
 import entity.Turno;
 import entity.Usuario;
+import entity.Venda;
 import utilidades.Cripto;
+import web.Logica;
 
 @WebServlet("/login")
-public class Login extends HttpServlet{
+public class Login extends Logica{
 	private static final long serialVersionUID = 1L;
 	
 	@Override
@@ -59,17 +62,24 @@ public class Login extends HttpServlet{
 		
 		Turno t = new TurnoDAO().getUltimo();
 
-		if(t.getTurno() == null) {		
+		if(t.getTurno() == null) {
+//			no caso de não haver turnos na tabela 
 			t.setConcluido(true);
-			t.resetTurno();
 		}
 		
 		if(t.isConcluido()) {
+//			caso o último turno já esteja concluído
 			t.resetTurno();
 		}
 			
+		List<Venda> lv = new VendaDAO().getByTurno(t);
+		
+		for(Venda v: lv) {
+			t.vendaTicket(v.getQuantidade());
+		}
+		
 		pedido.getSession().setAttribute("turno", t);
 		// Manda mostrar a tela principal
-		pedido.getRequestDispatcher("/telaprincipal").forward(pedido, resposta);
+		redireciona("/telaprincipal", pedido, resposta);
 	}
 }

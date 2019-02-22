@@ -2,18 +2,18 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
-<link rel="stylesheet" type="text/css" href="css/style.css" />
+<link rel="stylesheet" type="text/css" href="../css/bootstrap.css" />
+<link rel="stylesheet" type="text/css" href="../css/style.css" />
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.js"></script>
 <script src="js/bootstrap.js" type="text/javascript"></script>
 </head>
 
 <nav class="navbar navbar-expand-sm navbar-dark bg-bar mb-1">
-	<a class="navbar-item" href="voltarpagina"><img
+	<a class="navbar-item" href="/valetransporte/voltarpagina"><img
 		src="img/voltar.png" class="img-fluid"></a>
 		
 	<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-		<li class="nav-item active"><a class="nav-link" href="telaprincipal">Home</a></li>
+		<li class="nav-item active"><a class="nav-link" href="/valetransporte/telaprincipal">Home</a></li>
 	</ul>
 	<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
 		<li class="nav-item active text-white">${sessionScope.usuario.nome }</li>
@@ -33,7 +33,7 @@
 					<img src="img/logout.png" class="img-fluid"></button>
 			</c:when>
 			<c:when test="${sessionScope.turno.concluido}">
-				<a class="nav-link" href="logout"><img src="img/logout.png" class="img-fluid"></a>
+				<a class="nav-link" href="/valetransporte/logout"><img src="img/logout.png" class="img-fluid"></a>
 			</c:when>
 		</c:choose>
 		</li>

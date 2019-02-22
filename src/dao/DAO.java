@@ -19,7 +19,7 @@ public class DAO {
 	@Getter @Setter
 	private String sqlQuery = null; 
 	@Getter
-	private String nomeTabela = null; 
+	protected String nomeTabela = null; 
 	private String nomeBanco = "valetransporte";
 	private String usuarioBanco = "valetransporte"; 
 	private String senhaBanco = "suporte2017";
@@ -30,15 +30,20 @@ public class DAO {
 	private PreparedStatement statement = null;
 	private boolean fecharConexao = true;
 			
+	protected final String cId;
+			
+	
 	protected DAO (String tabelaDB, Connection conexao){
 //		recebe a conexao de outra classe. É usada quando um DAO chama outro para evitar abertura de novas conexões
 		this.nomeTabela = tabelaDB;
 		this.dbConnection = conexao;
 		this.fecharConexao = false;
+		this.cId = nomeTabela + ".id";
 	}
 	
 	protected DAO (String tabelaDB){
 		this.nomeTabela = tabelaDB;
+		this.cId = nomeTabela + ".id";
 	}
 
 	protected void iniciaConexaoComBanco() {

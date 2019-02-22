@@ -21,4 +21,8 @@ public class Turno {
 	public void resetTurno() {
 		this.turno = "Encerrado";
 	}
+	
+	public void vendaTicket(int quantidade) {
+		this.quantVales -= quantidade;
+	}
 }

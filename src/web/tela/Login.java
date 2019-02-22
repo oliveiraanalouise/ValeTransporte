@@ -18,9 +18,11 @@ public class Login extends Logica{
 	protected void service(HttpServletRequest pedido, HttpServletResponse resposta)	throws ServletException, IOException {
 		Usuario logado = (Usuario) pedido.getSession().getAttribute("usuario");
 
-		if(logado != null){
-			redirecionaIndex(pedido, resposta);
-		}
+		try {
+			if(null != logado.getNome()){
+				redirecionaIndex(pedido, resposta);
+			}
+		} catch (Exception e) {	}
 		
 		redireciona("index.jsp", pedido, resposta);
 	}

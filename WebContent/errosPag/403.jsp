@@ -3,14 +3,14 @@
 <head>
 <meta charset="ISO-8859-1" />
 <title>VT 403</title>
-<link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+<link rel="stylesheet" type="text/css" href="../css/bootstrap.css" />
 </head>
 
 <body>
 	<div style="position: absolute; top: 20%; width: 100%;">
 		<div class="container" align="center">
 			<div align="center">
-				<img class="img-fluid" src="img/logo-ctb.png" />
+				<img class="img-fluid" src="../img/logo-ctb.png" />
 			</div>
 			<br />
 
@@ -20,7 +20,7 @@
 			<p>Você digitou uma senha incorreta ou não tem permissão para
 				acessar a página que tentou.
 			<p>
-				Para voltar para a página principal clique <a href="telalogin">aqui</a>
+				Para voltar para a página principal clique <a href="/valetransporte/telalogin">aqui</a>
 			</p>
 		</div>
 	</div>
