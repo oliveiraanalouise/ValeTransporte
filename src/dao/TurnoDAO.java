@@ -2,6 +2,8 @@ package dao;
 
 import java.sql.Date;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.joda.time.DateTime;
 
@@ -123,5 +125,46 @@ public class TurnoDAO extends DAO {
 		}
 		
 		encerraConexaocomBanco();
+	}
+
+	public List<Turno> getAll() {
+		iniciaConexaoComBanco();
+		List<Turno> turnos = new ArrayList<Turno>();
+		
+		setSqlQuery(
+			"select * from " + nomeTabela+" order by " + cId + " desc"
+		);
+		
+		try {
+			setStatement(
+				getDbConnection().prepareStatement(
+					getSqlQuery()
+				)
+			);
+			
+			setResultado(getStatement().executeQuery());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		try {
+			Turno t = null;
+			
+			while(getResultado().next()) {
+				t = new Turno(
+					getResultado().getInt(cId),
+					getResultado().getInt(cQuantVales),
+					getResultado().getInt(cIdVendedor),
+					new DateTime(getResultado().getDate(cData)),
+					getResultado().getString(cTurno),
+					getResultado().getBoolean(cConcluido)
+				);
+				
+				turnos.add(t);
+			} 
+		} catch (SQLException e) {}
+		
+		encerraConexaocomBanco();
+		return turnos;
 	}
 }

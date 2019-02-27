@@ -3,14 +3,14 @@
 <head>
 <meta charset="ISO-8859-1" />
 <title>VT 403</title>
-<link rel="stylesheet" type="text/css" href="../css/bootstrap.css" />
+<link rel="stylesheet" type="text/css" href="/valetransporte/css/bootstrap.css" />
 </head>
 
 <body>
 	<div style="position: absolute; top: 20%; width: 100%;">
 		<div class="container" align="center">
 			<div align="center">
-				<img class="img-fluid" src="../img/logo-ctb.png" />
+				<img class="img-fluid" src="/valetransporte/img/logo-ctb.png" />
 			</div>
 			<br />
 

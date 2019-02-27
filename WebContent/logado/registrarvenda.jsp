@@ -35,14 +35,13 @@
 			<div class="container-fluid w-50">
 				<div class="form-group">
 					<input disabled required class="form-control" type="text"
-						name="nomeAluno" value="${sessionScope.aluno.nome}"> <span>Escolha
+						name="nomeAluno" value="${sessionScope.aluno.id} - ${sessionScope.aluno.nome}"> <span>Escolha
 						o aluno na lista abaixo</span>
 				</div>
 				<div class="form-group">
 					<input type="number" required class="form-control"
 						placeholder="Quantidade de vales" name="quantidade">
 				</div>
-
 
 				<div style="display: none">
 					<input type="text" name="idAluno" value="${sessionScope.aluno.id}">
@@ -63,6 +62,7 @@
 			<thead>
 				<tr>
 					<th></th>
+					<th>ID</th>
 					<th>Nome</th>
 					<th>CPF</th>
 					<th>RG</th>
@@ -76,6 +76,7 @@
 					<tr>
 						<td><a href="telaregistrarvenda?ialuno=${posicao.index}"
 							class="btn btn-outline-primary btn-sm">Escolher</a></td>
+						<td>${aluno.id}</td>
 						<td>${aluno.nome}</td>
 						<td>${aluno.cpf}</td>
 						<td>${aluno.rg}</td>

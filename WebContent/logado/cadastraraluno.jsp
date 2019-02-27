@@ -28,9 +28,9 @@
 					<div class="col">
 						<input type="text" class="form-control" placeholder="RG" id="rg" name="rg" value="${aluno.rg}">
 					</div>
-					<div class="col">
+					<%-- <div class="col">
 						<input type="text" class="form-control" placeholder="CPF" id="cpf" name="cpf" value="${aluno.cpf}">
-					</div>
+					</div> --%>
 				</div>
 			</div>
 			<div class="form-group">
@@ -40,6 +40,9 @@
 				<div class="row">
 					<div class="col">
 						<input type="text" class="form-control" placeholder="Endereço" name="endereco" value="${aluno.endereco}">
+					</div>
+					<div class="col">
+						<input type="text" class="form-control" placeholder="Bairro" name="bairro" value="${aluno.endereco}">
 					</div>
 					<div class="col-2">
 						<input type="text" class="form-control" placeholder="CEP" name="cep" id="cep" value="${aluno.cep}">

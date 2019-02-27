@@ -43,8 +43,8 @@
 
 		<a class="btn btn-primary btn-block btn-lg" href="telacadastraraluno">Cadastrar aluno</a> 
 		<a class="btn btn-primary btn-block btn-lg"	href="telacadastrarescola">Cadastrar/consultar escola</a>
-		<a class="btn btn-primary btn-block btn-lg" href="telaverturnos">Ver turnos</a>
-		<a class="btn btn-primary btn-block btn-lg" href=""></a>
+		<!-- <a class="btn btn-primary btn-block btn-lg" href="vertodosturnos">Ver turnos</a>
+		<a class="btn btn-primary btn-block btn-lg" href="">Ver vendas desse turno</a> -->
 		
 		<c:if test="${!sessionScope.turno.concluido}">
 			<button type="button" class="btn btn-danger btn-block btn-lg"

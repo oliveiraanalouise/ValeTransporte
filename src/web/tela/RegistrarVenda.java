@@ -13,7 +13,7 @@ import entity.Aluno;
 import web.Logica;
 
 @WebServlet("/telaregistrarvenda")
-public class TelaRegistrarVenda extends Logica{
+public class RegistrarVenda extends Logica{
 	private static final long serialVersionUID = 1L;
 
 	@SuppressWarnings("unchecked")

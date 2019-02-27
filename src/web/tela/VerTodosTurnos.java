@@ -7,21 +7,19 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import dao.UsuarioDAO;
-import entity.Usuario;
+import dao.TurnoDAO;
 import web.Logica;
 
-@WebServlet("/telaprincipal")
-public class Principal extends Logica{
+@WebServlet("/vertodosturnos")
+public class VerTodosTurnos extends Logica{
 	private static final long serialVersionUID = 1L;
 
+	@Override
 	protected void service(HttpServletRequest pedido, HttpServletResponse resposta) throws ServletException, IOException {
-		Usuario u = (Usuario) pedido.getSession().getAttribute("usuario");
-		pedido.setAttribute("supervisores", new UsuarioDAO().getAllSupervisor());
+		TurnoDAO tdao = new TurnoDAO();
 		
-		if(u!=null) 
-			redireciona("logado/index.jsp", pedido, resposta);
-		else
-			redireciona("erro402", pedido, resposta);
+		pedido.getSession().setAttribute("turnos", tdao.getAll());
+		
+		redireciona("/logado/verturnos.jsp", pedido, resposta);
 	}
 }

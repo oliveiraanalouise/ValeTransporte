@@ -1,3 +1,4 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!-- Modals -->
 	<div class="modal fade" id="modalIniciarTurno" tabindex="-1"
 		role="dialog">
@@ -19,8 +20,14 @@
 								value="${sessionScope.quantVales }">
 						</div>
 						<div class="form-group">
-							<input type="text" class="form-control" placeholder="Responsável"
-								name="responsavel">
+							<select class="custom-select" name="periodo">
+								<option style="display: none">Selecione o supervisor:</option>
+								<c:forEach var="supervisor" items="${supervisores}">
+									<option value="${supervisor.id}">${supervisor.nome}</option>
+								</c:forEach>
+							</select>
+							<!-- <input type="text" class="form-control" placeholder="Responsável"
+								name="responsavel"> -->
 						</div>
 						<div class="form-group">
 							<select class="custom-select" name="periodo">

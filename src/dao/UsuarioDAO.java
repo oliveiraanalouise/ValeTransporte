@@ -2,6 +2,8 @@ package dao;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import entity.Usuario;
 
@@ -86,5 +88,38 @@ public class UsuarioDAO extends DAO {
 
 		encerraConexaocomBanco();
 		return u;
+	}
+	
+	public List<Usuario> getAllSupervisor() {
+		iniciaConexaoComBanco();
+
+		List<Usuario> lista = new ArrayList<Usuario>();
+		
+		setSqlQuery("select * from " + nomeTabela + " where " + cId + " = " + cSupervisor);
+
+		try {
+			setStatement(getDbConnection().prepareStatement(getSqlQuery()));
+
+			setResultado(getStatement().executeQuery());
+		} catch (SQLException sqle) {
+			sqle.printStackTrace();
+		}
+
+		Usuario u = null;
+
+		try {
+			while (getResultado().next()) {
+				u = new Usuario(getResultado().getInt(cId), getResultado().getString(cNome),
+						getResultado().getString(cLogin), getResultado().getString(cSenha),
+						getResultado().getString(cNome));
+				
+				lista.add(u);
+			}
+		} catch (SQLException sqle) {
+			sqle.printStackTrace();
+		}
+
+		encerraConexaocomBanco();
+		return lista;
 	}
 }
