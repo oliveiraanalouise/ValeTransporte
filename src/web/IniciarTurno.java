@@ -24,10 +24,11 @@ public class IniciarTurno extends Logica{
 		Turno t = new Turno(
 			0,
 			Integer.parseInt(quantVales),
-			((Usuario) pedido.getSession().getAttribute("usuario")).getId(),
 			new DateTime(),			
 			(String) pedido.getParameter("periodo"),
-			false
+			false,
+			(Usuario) pedido.getSession().getAttribute("usuario"),
+			new Usuario(Integer.parseInt(pedido.getParameter("responsavel")),null,null,null,null)
 		);
 		
 		new TurnoDAO().inserir(t);

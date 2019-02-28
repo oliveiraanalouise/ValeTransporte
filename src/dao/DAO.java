@@ -46,12 +46,26 @@ public class DAO {
 		this.cId = nomeTabela + ".id";
 	}
 
-	protected void iniciaConexaoComBanco() {
+	protected void iniciaConexaoComBanco(String sql) {
 		// inicia a conexão com o banco de dados
 		if (dbConnection == null)
 //			só inicia uma nova conexão caso ela ainda não exista
-			this.dbConnection = new DBConnection(ip, nomeBanco, usuarioBanco, senhaBanco).getConnection();		
+			this.dbConnection = new DBConnection(ip, nomeBanco, usuarioBanco, senhaBanco).getConnection();
+		
+		try {
+			statement = this.getDbConnection().prepareStatement(sql);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
+	
+	/*
+	 * protected void iniciaConexaoComBanco() { // inicia a conexão com o banco de
+	 * dados if (dbConnection == null) // só inicia uma nova conexão caso ela ainda
+	 * não exista this.dbConnection = new DBConnection(ip, nomeBanco, usuarioBanco,
+	 * senhaBanco).getConnection(); }
+	 */
 
 	protected void encerraConexaocomBanco() {
 		// fecha a conexão com o banco

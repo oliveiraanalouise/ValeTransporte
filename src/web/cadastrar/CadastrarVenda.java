@@ -34,7 +34,7 @@ public class CadastrarVenda extends Logica{
 //				a tabela de vendas só necessita da id do aluno, então crio um objeto aluno 
 //				somente com a id
 				Aluno a = new Aluno(
-					Integer.parseInt(pedido.getParameter("idAluno")),null,null,null,null,null,null
+					Integer.parseInt(pedido.getParameter("idAluno")),null,null,null,null,null
 				);
 				
 				Venda v = new Venda(

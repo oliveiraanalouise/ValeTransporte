@@ -8,14 +8,17 @@ import java.util.List;
 import org.joda.time.DateTime;
 
 import entity.Turno;
+import entity.Usuario;
 
 public class TurnoDAO extends DAO {
 	private final String 
 		cData = nomeTabela + ".data",
 		cTurno = nomeTabela + ".turno", 
 		cQuantVales = nomeTabela + ".quantidadeVales",
-		cConcluido = nomeTabela + ".concluido",
-		cIdVendedor = nomeTabela + ".vendedor"/*,
+		cIdVendedor = nomeTabela + ".vendedor",
+		cIdResponsavel = nomeTabela + ".responsavel",
+		cConcluido = nomeTabela + ".concluido"
+		/*,
 		cNomeVendedor = new UsuarioDAO().nomeTabela+".nome"*/;
 
 	public TurnoDAO() {
@@ -23,29 +26,24 @@ public class TurnoDAO extends DAO {
 	}
 
 	public void inserir(Turno t) {
-		iniciaConexaoComBanco();
-		
-		setSqlQuery(
-			"insert into "+nomeTabela+" ("+ 
+		iniciaConexaoComBanco(
+				"insert into "+nomeTabela+" ("+ 
 				cData + ", " +
 				cTurno + ", " +
 				cQuantVales + ", " +
-				cIdVendedor
-			+") values (?,?,?,?)"				
+				cIdVendedor + ", " +
+				cIdResponsavel
+			+") values (?,?,?,?,?)"
 		);
 		
 		try {
-			setStatement(
-				getDbConnection().prepareStatement(
-					getSqlQuery()
-				)
-			);
 			int posicao = 1;
 //			Preenche o statement
 			getStatement().setDate(posicao, new Date(t.getData().toDate().getTime()));
 			getStatement().setString(++posicao, t.getTurno());
 			getStatement().setInt(++posicao, t.getQuantVales());
-			getStatement().setInt(++posicao, t.getIdVendedor());
+			getStatement().setInt(++posicao, t.getVendedor().getId());
+			getStatement().setInt(++posicao, t.getResponsavel().getId());
 
 //			executa
 			getStatement().executeUpdate();
@@ -56,58 +54,49 @@ public class TurnoDAO extends DAO {
 	}
 	
 	public Turno getUltimo(){
-		iniciaConexaoComBanco();
-		Turno t = null;
-		
-		setSqlQuery(
+		iniciaConexaoComBanco(
 			"select * from " + nomeTabela+" order by " + cId + " desc limit 1"
 		);
+		Turno t = null;
 		
-		try {
-			setStatement(
-				getDbConnection().prepareStatement(
-					getSqlQuery()
-				)
-			);
-			
+//		setSqlQuery(
+//			"select * from " + nomeTabela+" order by " + cId + " desc limit 1"
+//		);
+		
+		try {						
 			setResultado(getStatement().executeQuery());
-		} catch (SQLException e) {
-			e.printStackTrace();
-			t = new Turno();			
-		}
 		
-		try {
 			if(getResultado().next()) {
 				t = new Turno(
 					getResultado().getInt(cId),
 					getResultado().getInt(cQuantVales),
-					getResultado().getInt(cIdVendedor),
 					new DateTime(getResultado().getDate(cData)),
 					getResultado().getString(cTurno),
-					getResultado().getBoolean(cConcluido)
+					getResultado().getBoolean(cConcluido),
+					new Usuario(getResultado().getInt(cIdVendedor),null,null,null,null),
+					new Usuario(getResultado().getInt(cIdResponsavel),null,null,null,null)
 				);
 			} else t = new Turno();
-		} catch (SQLException e) {}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			t = new Turno();	
+		}
 		
 		encerraConexaocomBanco();
 		return t;
 	}
 
 	public void atualizar(Turno t) {
-		iniciaConexaoComBanco();
-		
-		setSqlQuery(
+		iniciaConexaoComBanco(
 			"update "+nomeTabela+" set "+ 
-				/*
-				 * cData + " = ?, " + cTurno + " = ?, " + cQuantVales + " = ?, "
-				 * + cIdVendedor + " = ?, " +
-				 */cConcluido	+ " = ? where " +
+			/*
+			 * cData + " = ?, " + cTurno + " = ?, " + cQuantVales + " = ?, "
+			 * + cIdVendedor + " = ?, " +
+			 */cConcluido	+ " = ? where " +
 			cId + " = ?"
 		);
 		
 		try {
-			setStatement(getDbConnection().prepareStatement(getSqlQuery()));
-			
 			int posicao = 1;
 			
 			/*
@@ -128,36 +117,23 @@ public class TurnoDAO extends DAO {
 	}
 
 	public List<Turno> getAll() {
-		iniciaConexaoComBanco();
+		iniciaConexaoComBanco("select * from " + nomeTabela+" order by " + cId + " desc");
 		List<Turno> turnos = new ArrayList<Turno>();
 		
-		setSqlQuery(
-			"select * from " + nomeTabela+" order by " + cId + " desc"
-		);
-		
 		try {
-			setStatement(
-				getDbConnection().prepareStatement(
-					getSqlQuery()
-				)
-			);
-			
 			setResultado(getStatement().executeQuery());
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
 		
-		try {
 			Turno t = null;
 			
 			while(getResultado().next()) {
 				t = new Turno(
 					getResultado().getInt(cId),
 					getResultado().getInt(cQuantVales),
-					getResultado().getInt(cIdVendedor),
 					new DateTime(getResultado().getDate(cData)),
 					getResultado().getString(cTurno),
-					getResultado().getBoolean(cConcluido)
+					getResultado().getBoolean(cConcluido),
+					new Usuario(getResultado().getInt(cIdVendedor),null,null,null,null),
+					new Usuario(getResultado().getInt(cIdResponsavel),null,null,null,null)
 				);
 				
 				turnos.add(t);

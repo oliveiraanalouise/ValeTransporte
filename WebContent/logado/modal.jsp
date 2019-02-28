@@ -20,8 +20,8 @@
 								value="${sessionScope.quantVales }">
 						</div>
 						<div class="form-group">
-							<select class="custom-select" name="periodo">
-								<option style="display: none">Selecione o supervisor:</option>
+							<select class="custom-select" name="responsavel">
+								<option style="display: none">Selecione o responsável:</option>
 								<c:forEach var="supervisor" items="${supervisores}">
 									<option value="${supervisor.id}">${supervisor.nome}</option>
 								</c:forEach>

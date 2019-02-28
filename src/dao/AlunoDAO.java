@@ -1,9 +1,13 @@
 package dao;
 
+
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.joda.time.DateTime;
 
 import entity.Aluno;
 
@@ -11,10 +15,11 @@ public class AlunoDAO extends DAO{
 	private final String cNome = nomeTabela + ".nome",
 //						 cCpf = nomeTabela + ".cpf",
 						 cRg = nomeTabela + ".rg",
-						 cEndereco = nomeTabela + ".endereco",
-						 cCep = nomeTabela + ".cep",
+//						 cEndereco = nomeTabela + ".endereco",
+//						 cCep = nomeTabela + ".cep",
 						 cBairro = nomeTabela + ".bairro",
-						 cEscola = nomeTabela + ".escola_id";
+						 cEscola = nomeTabela + ".escola_id",
+						 cDataNascimento = nomeTabela + ".nascimento";
 
 	public AlunoDAO() {
 		super("aluno");
@@ -26,25 +31,18 @@ public class AlunoDAO extends DAO{
 	
 	public boolean exist(Aluno aluno) {
 		//retorna se o aluno já existe no banco através do rg e cpf
-		iniciaConexaoComBanco();
+		iniciaConexaoComBanco("select "+cId+" from "+nomeTabela+" where "/*+cCpf+" = ? or "*/+cRg+" = ?");
 		
 		boolean exist = false;
-		setSqlQuery("select "+cId+" from "+nomeTabela+" where "/*+cCpf+" = ? or "*/+cRg+" = ?");
-		
-		try {
-			setStatement(getDbConnection().prepareStatement(getSqlQuery()));
-			
+
+		try {	
 			int posicao = 1;
 			
 //			getStatement().setString(posicao, aluno.getCpf());
 			getStatement().setString(++posicao, aluno.getRg());
 			
 			setResultado(getStatement().executeQuery());
-		} catch (SQLException sqle) {
-			sqle.printStackTrace();
-		}
 		
-		try {
 			if(getResultado().next()) {
 				exist = true;
 			}
@@ -57,30 +55,27 @@ public class AlunoDAO extends DAO{
 	}
 
 	public void inserir(Aluno aluno) {
-		iniciaConexaoComBanco();
-		
-		setSqlQuery(
+		iniciaConexaoComBanco(
 			"insert into "+nomeTabela+" ("+
-				cNome+", "+
-				cRg+", "+
-//				cCpf+", "+
-				cEndereco+", "+
-				cCep+", "+
-				cBairro+", "+
-				cEscola+
-			") values (?,?,?,?,?,?)");
+			cNome+", "+
+			cRg+", "+
+//			cCpf+", "+
+//			cEndereco+", "+
+//			cCep+", "+
+			cBairro+", "+
+			cEscola+", "+
+			cDataNascimento+
+			") values (?,?,?,?,?)"
+		);
 		
-		try {
-			setStatement(getDbConnection().prepareStatement(getSqlQuery()));
-			
+		try {			
 			int posicao = 1;
 			
 			getStatement().setString(posicao, aluno.getNome());
 			getStatement().setString(++posicao, aluno.getRg());
 //			getStatement().setString(++posicao, aluno.getCpf());
-			getStatement().setString(++posicao, aluno.getEndereço());
-			getStatement().setString(++posicao, aluno.getCep());
 			getStatement().setInt(++posicao, aluno.getEscola().getId());
+			getStatement().setDate(++posicao, new Date(aluno.getDataNascimento().toDate().getTime()));
 			
 			getStatement().executeUpdate();
 		} catch(SQLException sqle) {
@@ -90,20 +85,13 @@ public class AlunoDAO extends DAO{
 	}
 
 	public List<Aluno> getAll() {
-		iniciaConexaoComBanco();
+		iniciaConexaoComBanco("select * from " + nomeTabela +" order by " +cNome);
 
 		List<Aluno> alunos = new ArrayList<>();
-		setSqlQuery("select * from " + nomeTabela +" order by " +cNome);
-
+		
 		try {
-			setStatement(getDbConnection().prepareStatement(getSqlQuery()));
-
 			setResultado(getStatement().executeQuery());
-		} catch (SQLException sqle) {
-			sqle.printStackTrace();
-		}
-
-		try {
+		
 			Aluno a;
 
 			while (getResultado().next()) {
@@ -112,10 +100,11 @@ public class AlunoDAO extends DAO{
 					getResultado().getString(cNome),
 					getResultado().getString(cRg),
 //					getResultado().getString(cCpf),
-					getResultado().getString(cEndereco),
-					getResultado().getString(cCep),
+//					getResultado().getString(cEndereco),
+//					getResultado().getString(cCep),
 					getResultado().getString(cBairro),
-					new EscolaDAO(getDbConnection()).getById(getResultado().getInt(cEscola))
+					new EscolaDAO(getDbConnection()).getById(getResultado().getInt(cEscola)),
+					new DateTime(getResultado().getDate(cDataNascimento))
 				);
 				
 				alunos.add(a);
@@ -129,32 +118,25 @@ public class AlunoDAO extends DAO{
 	}
 
 	public Aluno getById(int id) {
-		iniciaConexaoComBanco();
-
-		setSqlQuery("select * from " + nomeTabela +" where "+cId+" =?");
-
-		try {
-			setStatement(getDbConnection().prepareStatement(getSqlQuery()));
-
-			getStatement().setInt(1, id);
-			setResultado(getStatement().executeQuery());
-		} catch (SQLException sqle) {
-			sqle.printStackTrace();
-		}
+		iniciaConexaoComBanco("select * from " + nomeTabela +" where "+cId+" =?");
 		
 		Aluno a = null;
 		
 		try {
+			getStatement().setInt(1, id);
+			setResultado(getStatement().executeQuery());
+		
 			if (getResultado().next()) {
 				a = new Aluno(
 					getResultado().getInt(cId),
 					getResultado().getString(cNome),
 					getResultado().getString(cRg),
 //					getResultado().getString(cCpf),
-					getResultado().getString(cEndereco),
-					getResultado().getString(cCep),
+//					getResultado().getString(cEndereco),
+//					getResultado().getString(cCep),
 					getResultado().getString(cBairro),
-					new EscolaDAO(getDbConnection()).getById(getResultado().getInt(cEscola))
+					new EscolaDAO(getDbConnection()).getById(getResultado().getInt(cEscola)),
+					new DateTime(getResultado().getDate(cDataNascimento))
 				);
 			}
 		} catch (SQLException sqle) {

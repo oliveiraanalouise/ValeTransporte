@@ -21,21 +21,16 @@ public class UsuarioDAO extends DAO {
 	}
 
 	public Usuario getByEmail(String email) {
-		iniciaConexaoComBanco();
+		iniciaConexaoComBanco(
+				"select " + cId + ", " + cNome + ", " + cLogin + ", " + cSenha + ", " + cNomeSupervisor + " FROM "
+				+ nomeTabela + " inner join " + nomeTabela + " as " + nomeTabela + "2 on " + cSupervisor + "="
+				+ cIdSupervisor + " where " + cLogin + " = ?"
+//				"select * from " + nomeTabela + " where " + cLogin + " = ?"		
+		);
 
 		Usuario u = null;
 
-//		monta a query
-		setSqlQuery("select " + cId + ", " + cNome + ", " + cLogin + ", " + cSenha + ", " + cNomeSupervisor + " FROM "
-				+ nomeTabela + " inner join " + nomeTabela + " as " + nomeTabela + "2 on " + cSupervisor + "="
-				+ cIdSupervisor + " where " + cLogin + " = ?"
-//			"select * from " + nomeTabela + " where " + cLogin + " = ?"
-		);
-
 		try {
-//			monta o statement
-			setStatement(getDbConnection().prepareStatement(getSqlQuery()));
-
 //			Preenche o statement
 			getStatement().setString(1, email);
 
@@ -59,24 +54,15 @@ public class UsuarioDAO extends DAO {
 	}
 
 	public Usuario getById(int id) {
-		iniciaConexaoComBanco();
-
-		setSqlQuery("select " + cId + ", " + cNome + ", " + cLogin + ", " + cSenha + ", " + cNomeSupervisor + " FROM "
+		iniciaConexaoComBanco("select " + cId + ", " + cNome + ", " + cLogin + ", " + cSenha + ", " + cNomeSupervisor + " FROM "
 				+ nomeTabela + " inner join " + nomeTabela + " as " + nomeTabela + "2 on " + cSupervisor + "="
 				+ cIdSupervisor + " where " + cId + " = ?");
-
-		try {
-			setStatement(getDbConnection().prepareStatement(getSqlQuery()));
-
-			getStatement().setInt(1, id);
-			setResultado(getStatement().executeQuery());
-		} catch (SQLException sqle) {
-			sqle.printStackTrace();
-		}
-
 		Usuario u = null;
 
 		try {
+			getStatement().setInt(1, id);
+			setResultado(getStatement().executeQuery());
+		
 			if (getResultado().next()) {
 				u = new Usuario(getResultado().getInt(cId), getResultado().getString(cNome),
 						getResultado().getString(cLogin), getResultado().getString(cSenha),
@@ -91,23 +77,16 @@ public class UsuarioDAO extends DAO {
 	}
 	
 	public List<Usuario> getAllSupervisor() {
-		iniciaConexaoComBanco();
+		iniciaConexaoComBanco("select * from " + nomeTabela + " where " + cId + " = " + cSupervisor);
 
 		List<Usuario> lista = new ArrayList<Usuario>();
 		
-		setSqlQuery("select * from " + nomeTabela + " where " + cId + " = " + cSupervisor);
 
 		try {
-			setStatement(getDbConnection().prepareStatement(getSqlQuery()));
-
 			setResultado(getStatement().executeQuery());
-		} catch (SQLException sqle) {
-			sqle.printStackTrace();
-		}
-
-		Usuario u = null;
-
-		try {
+		
+			Usuario u = null;
+			
 			while (getResultado().next()) {
 				u = new Usuario(getResultado().getInt(cId), getResultado().getString(cNome),
 						getResultado().getString(cLogin), getResultado().getString(cSenha),

@@ -8,6 +8,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.joda.time.DateTime;
+
 import dao.AlunoDAO;
 import entity.Aluno;
 import entity.Escola;
@@ -44,10 +46,9 @@ public class CadastrarAluno extends Logica{
 			0,
 			pedido.getParameter("nome"),
 			pedido.getParameter("rg"),
-			pedido.getParameter("cpf"),
-			pedido.getParameter("endereco"),
-			pedido.getParameter("cep"),
-			e
+			pedido.getParameter("bairro"),
+			e,
+			new DateTime()
 		);		
 		
 		if(!adao.exist(aluno)) {//só vai fazer cadastro caso o cpf e rg ainda não estejam registrados 

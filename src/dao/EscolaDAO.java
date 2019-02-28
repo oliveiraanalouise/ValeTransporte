@@ -21,16 +21,9 @@ public class EscolaDAO extends DAO {
 
 	public int inserir(Escola e) {
 		//retorn a id do registro que acabou de ser inserido
-		iniciaConexaoComBanco();
-		setSqlQuery("insert into " + nomeTabela + " (" + cNome + ") values (?)");
-		
-		try {
-			setStatement(
-				getDbConnection().prepareStatement(
-					getSqlQuery()
-				)
-			);
-			
+		iniciaConexaoComBanco("insert into " + nomeTabela + " (" + cNome + ") values (?)");
+
+		try {			
 			int posicao = 1;
 			getStatement().setString(posicao, e.getNome());
 			
@@ -43,59 +36,35 @@ public class EscolaDAO extends DAO {
 	}
 
 	private Escola getUltimo() {
-		iniciaConexaoComBanco();
+		iniciaConexaoComBanco("select * from " + nomeTabela+" order by " + cId + " desc limit 1");
 		Escola e = null;
 		
-		setSqlQuery(
-			"select * from " + nomeTabela+" order by " + cId + " desc limit 1"
-		);
-		
 		try {
-			setStatement(
-				getDbConnection().prepareStatement(
-					getSqlQuery()
-				)
-			);
-			
 			setResultado(getStatement().executeQuery());
-		} catch (SQLException sqle) {
-			sqle.printStackTrace();
-			e = new Escola();			
-		}
 		
-		try {
 			if(getResultado().next()) {
 				e = new Escola(
 					getResultado().getInt(cId),
 					getResultado().getString(cNome)
 				);
 			} else e = new Escola();
-		} catch (SQLException sqle) {}
+		} catch (SQLException sqle) {
+			sqle.printStackTrace();
+			e = new Escola();		
+		}
 		
 		encerraConexaocomBanco();
 		return e;
 	}
 
 	public List<Escola> getAll() {
-		iniciaConexaoComBanco();
+		iniciaConexaoComBanco("select * from " + nomeTabela + " order by " + cNome);
 		
 		List<Escola> escolas = new ArrayList<>();
 		
-		setSqlQuery("select * from " + nomeTabela + " order by " + cNome);
-		
 		try {
-			setStatement(
-				getDbConnection().prepareStatement(
-					getSqlQuery()
-				)
-			);
-			
 			setResultado(getStatement().executeQuery());
-		} catch(SQLException sqle) {
-			sqle.printStackTrace();
-		}
 		
-		try {
 			Escola e;
 			while(getResultado().next()) {
 				e = new Escola(
@@ -115,27 +84,14 @@ public class EscolaDAO extends DAO {
 	}
 	
 	public Escola getById(int id) {
-		iniciaConexaoComBanco();
+		iniciaConexaoComBanco("select * from " + nomeTabela + " where " + cId +" = ?");
 		Escola escola = null;
 		
-		setSqlQuery("select * from " + nomeTabela + " where " + cId +" = ?");
-		
-		try {
-			setStatement(
-				getDbConnection().prepareStatement(
-					getSqlQuery()
-				)
-			);
-			
+		try {			
 			getStatement().setInt(1, id);
-
 			
 			setResultado(getStatement().executeQuery());
-		} catch(SQLException sqle) {
-			sqle.printStackTrace();
-		}
 		
-		try {
 			if(getResultado().next()) {
 				escola = new Escola(
 					getResultado().getInt(cId),

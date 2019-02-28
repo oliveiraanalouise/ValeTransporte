@@ -12,11 +12,12 @@ import lombok.ToString;
 @Getter
 @ToString
 public class Turno {
-	int id, quantVales, idVendedor;
+	int id, quantVales;
 	DateTime data;
 	String turno/*, nomeVendedor*/;
 	@Setter
 	boolean concluido;
+	Usuario vendedor, responsavel;
 	
 	public void resetTurno() {
 		this.turno = "Encerrado";

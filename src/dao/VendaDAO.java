@@ -18,14 +18,10 @@ public class VendaDAO extends DAO {
 	}
 
 	public void inserir(Venda v) {
-		iniciaConexaoComBanco();
-
-		setSqlQuery("insert into " + nomeTabela + " (" + cAluno + ", " + cQuantidade + ", " + cTurno
+		iniciaConexaoComBanco("insert into " + nomeTabela + " (" + cAluno + ", " + cQuantidade + ", " + cTurno
 				+ ", " + cVendedor + ") values (?,?,?,?)");
 
 		try {
-			setStatement(getDbConnection().prepareStatement(getSqlQuery()));
-
 			int posicao = 1;
 
 			getStatement().setInt(posicao, v.getAluno().getId());
@@ -41,22 +37,15 @@ public class VendaDAO extends DAO {
 	}
 
 	public List<Venda> getByTurno(Turno t) {
-		iniciaConexaoComBanco();
+		iniciaConexaoComBanco("select * from "+nomeTabela+" where "+cTurno+" = ?");
 		
 		List<Venda> vendas = new ArrayList<Venda>();
-		setSqlQuery("select * from "+nomeTabela+" where "+cTurno+" = ?");
 		
 		try {
-			setStatement(getDbConnection().prepareStatement(getSqlQuery()));
-			
 			getStatement().setInt(1, t.getId());
 			
 			setResultado(getStatement().executeQuery());
-		} catch (SQLException sqle) {
-			sqle.printStackTrace();
-		}
-		
-		try {
+
 			Venda v;
 			while(getResultado().next()) {
 				v = new Venda(
