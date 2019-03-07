@@ -59,10 +59,6 @@ public class TurnoDAO extends DAO {
 		);
 		Turno t = null;
 		
-//		setSqlQuery(
-//			"select * from " + nomeTabela+" order by " + cId + " desc limit 1"
-//		);
-		
 		try {						
 			setResultado(getStatement().executeQuery());
 		

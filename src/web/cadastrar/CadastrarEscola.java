@@ -23,7 +23,8 @@ public class CadastrarEscola extends Logica{
 		List<Escola> escolas = (List<Escola>) pedido.getSession().getAttribute("escolas");
 		Escola e = new Escola(
 			0,
-			pedido.getParameter("nome")
+			pedido.getParameter("nome"),
+			pedido.getParameter("bairro")
 		);
 		
 		boolean ok = false;

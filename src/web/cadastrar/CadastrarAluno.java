@@ -13,6 +13,7 @@ import org.joda.time.DateTime;
 import dao.AlunoDAO;
 import entity.Aluno;
 import entity.Escola;
+import utilidades.PDF;
 import web.Logica;
 
 @WebServlet("/cadastraraluno")
@@ -52,8 +53,10 @@ public class CadastrarAluno extends Logica{
 		);		
 		
 		if(!adao.exist(aluno)) {//só vai fazer cadastro caso o cpf e rg ainda não estejam registrados 
-			adao.inserir(aluno);
+			aluno.setId(adao.inserir(aluno));
 			pedido.setAttribute("ok", true);
+			
+			new PDF().gerarComprovanteCadastro(aluno);
 		}
 		else pedido.setAttribute("cpfCadastrado", true);
 		

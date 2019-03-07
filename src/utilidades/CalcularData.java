@@ -32,6 +32,6 @@ public class CalcularData {
 	}
 	
 	public int anosEntre() {
-		return Years.yearsBetween(hoje, outra).getYears();
+		return Years.yearsBetween(outra, hoje).getYears();
 	}
 }

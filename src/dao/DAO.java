@@ -18,8 +18,9 @@ public class DAO {
 	private Connection dbConnection = null;
 	@Getter @Setter
 	private String sqlQuery = null; 
-	@Getter
+	
 	protected String nomeTabela = null; 
+	@Getter
 	private String nomeBanco = "valetransporte";
 	private String usuarioBanco = "valetransporte"; 
 	private String senhaBanco = "suporte2017";

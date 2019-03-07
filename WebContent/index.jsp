@@ -12,6 +12,7 @@
 		<div class="container w-50">
 			<div class="text-center mb-1">
 				<img class="img-fluid" src="img/logo-ctb.png" />
+				<br>Portal de vendas do Vale Transporte
 			</div>
 			<form action="login" method="POST">
 				<div class="form-group">

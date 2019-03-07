@@ -35,7 +35,7 @@
 			<div class="container-fluid w-50">
 				<div class="form-group">
 					<input disabled required class="form-control" type="text"
-						name="nomeAluno" value="${sessionScope.aluno.id} - ${sessionScope.aluno.nome}"> <span>Escolha
+						name="nomeAluno" value="${sessionScope.aluno.stringId} - ${sessionScope.aluno.nome}"> <span>Escolha
 						o aluno na lista abaixo</span>
 				</div>
 				<div class="form-group">
@@ -64,7 +64,7 @@
 					<th></th>
 					<th>ID</th>
 					<th>Nome</th>
-					<th>CPF</th>
+					<th>Bairro</th>
 					<th>RG</th>
 					<th>Escola</th>
 				</tr>
@@ -76,9 +76,9 @@
 					<tr>
 						<td><a href="telaregistrarvenda?ialuno=${posicao.index}"
 							class="btn btn-outline-primary btn-sm">Escolher</a></td>
-						<td>${aluno.id}</td>
+						<td>${aluno.stringId}</td>
 						<td>${aluno.nome}</td>
-						<td>${aluno.cpf}</td>
+						<td>${aluno.bairro}</td>
 						<td>${aluno.rg}</td>
 						<td>${aluno.escola.nome}</td>
 					</tr>

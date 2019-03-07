@@ -13,5 +13,5 @@ import lombok.ToString;
 @ToString
 public class Escola {
 	int id;
-	String nome;
+	String nome , bairro;
 }

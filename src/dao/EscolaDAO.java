@@ -9,7 +9,8 @@ import java.sql.Connection;
 import entity.Escola;
 
 public class EscolaDAO extends DAO {
-	private final String cNome = nomeTabela + ".nome";
+	private final String cNome = nomeTabela + ".nome",
+						 cBairro = nomeTabela + ".bairro";
 
 	public EscolaDAO() {
 		super("escola");
@@ -25,7 +26,8 @@ public class EscolaDAO extends DAO {
 
 		try {			
 			int posicao = 1;
-			getStatement().setString(posicao, e.getNome());
+			getStatement().setString(posicao++, e.getNome());
+			getStatement().setString(posicao++, e.getBairro());
 			
 			getStatement().executeUpdate();
 		} catch(SQLException sqle) {
@@ -45,7 +47,8 @@ public class EscolaDAO extends DAO {
 			if(getResultado().next()) {
 				e = new Escola(
 					getResultado().getInt(cId),
-					getResultado().getString(cNome)
+					getResultado().getString(cNome),
+					getResultado().getString(cBairro)
 				);
 			} else e = new Escola();
 		} catch (SQLException sqle) {
@@ -69,7 +72,8 @@ public class EscolaDAO extends DAO {
 			while(getResultado().next()) {
 				e = new Escola(
 					getResultado().getInt(cId),
-					getResultado().getString(cNome)
+					getResultado().getString(cNome),
+					getResultado().getString(cBairro)
 				);
 				
 				escolas.add(e);
@@ -95,7 +99,8 @@ public class EscolaDAO extends DAO {
 			if(getResultado().next()) {
 				escola = new Escola(
 					getResultado().getInt(cId),
-					getResultado().getString(cNome)
+					getResultado().getString(cNome),
+					getResultado().getString(cBairro)
 				);
 			}
 		} catch (SQLException e) {
