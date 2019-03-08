@@ -18,7 +18,7 @@
 		
 		<c:if test="${ok}">
 			<div class="alert alert-success show fade" role="alert">
-				Cadastro feito com sucesso
+				Cadastro feito com sucesso. Veja o comprovante de cadastro <a href="ComprovanteCadastro${id}.pdf" target="_blank">aqui</a>.
 			</div>
 		</c:if>
 		
@@ -39,21 +39,22 @@
 			<div class="form-group">
 				<div class="row">
 					<div class="col">
-						<input type="text" class="form-control" placeholder="Endereço" name="endereco" value="${aluno.endereco}">
+						<input type="date" class="form-control" name="nascimento" value="${aluno.dataNascimento}">
+						<span>Data de nascimento</span>
 					</div>
 					<div class="col">
 						<input type="text" class="form-control" placeholder="Bairro" name="bairro" value="${aluno.endereco}">
 					</div>
-					<div class="col-2">
+					<%-- <div class="col-2">
 						<input type="text" class="form-control" placeholder="CEP" name="cep" id="cep" value="${aluno.cep}">
-					</div>
+					</div> --%>
 				</div>
 			</div>
 			<div class="form-group">
 				<select name="escola" class="custom-select">
 					<option style="display:none">Selecione a escola</option>
-					<c:forEach var="e" items="${sessionScope.escolas}">
-						<option value="${e.id}">${e.nome}</option>
+					<c:forEach var="e" items="${sessionScope.escolas}" varStatus="posicao">
+						<option value="${posicao.index}">${e.nome} - ${e.bairro}</option>
 					</c:forEach>
 				</select>
 			</div>

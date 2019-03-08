@@ -1,10 +1,7 @@
 package utilidades;
 
-import java.awt.Desktop;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
 
 import org.joda.time.DateTime;
 
@@ -18,9 +15,9 @@ import com.itextpdf.text.pdf.PdfWriter;
 import entity.Aluno;
 
 public class PDF {
-	
-	public void gerarComprovanteCadastro(Aluno a) {
-		String nomeArquivo = "ComprovanteCadastro"+a.getId()+".pdf";
+	public void gerarComprovanteCadastro(Aluno a, String pasta) {
+		//recebe a pasta do contexto do tomcat em formato de string
+		String nomeArquivo = pasta+"\\ComprovanteCadastro"+a.getId()+".pdf";
 		
 		Document d = new Document();
 		
@@ -98,11 +95,13 @@ public class PDF {
 			d.close();
 		}
 
-		try {
-			Desktop.getDesktop().open(new File(nomeArquivo));
-		} catch (IOException e) {
-
-			e.printStackTrace();
-		}
+		
+		
+		/* descomente esse trecho para o arquivo abrir no SERVIDOR quando for gerado
+		 * try { File arquivo = new File(nomeArquivo);
+		 * 
+		 * Desktop.getDesktop().open(arquivo); } catch (IOException e) {
+		 * e.printStackTrace(); }
+		 */
 	}
 }
