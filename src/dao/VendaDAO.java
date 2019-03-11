@@ -1,10 +1,10 @@
 package dao;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import entity.Turno;
 import entity.Venda;
 
 public class VendaDAO extends DAO {
@@ -17,32 +17,33 @@ public class VendaDAO extends DAO {
 		super("venda");
 	}
 
-	public void inserir(Venda v) {
+	public VendaDAO(Connection dbConnection) {
+		super("venda", dbConnection);
+	}
+
+	public void inserir(Venda v) throws SQLException {
 		iniciaConexaoComBanco("insert into " + nomeTabela + " (" + cAluno + ", " + cQuantidade + ", " + cTurno
 				+ ", " + cVendedor + ") values (?,?,?,?)");
 
-		try {
-			int posicao = 1;
+		int posicao = 1;
 
-			getStatement().setInt(posicao, v.getAluno().getId());
-			getStatement().setInt(++posicao, v.getQuantidade());
-			getStatement().setInt(++posicao, v.getTurno().getId());
-			getStatement().setInt(++posicao, v.getVendedor().getId());
+		getStatement().setInt(posicao, v.getAluno().getId());
+		getStatement().setInt(++posicao, v.getQuantidade());
+		getStatement().setInt(++posicao, v.getIdTurno());
+		getStatement().setInt(++posicao, v.getVendedor().getId());
 
-			getStatement().executeUpdate();
-		} catch (SQLException sqle) {
-			sqle.printStackTrace();
-		}
+		getStatement().executeUpdate();
+		
 		encerraConexaocomBanco();
 	}
 
-	public List<Venda> getByTurno(Turno t) {
+	public List<Venda> getByIdTurno(int id) {
 		iniciaConexaoComBanco("select * from "+nomeTabela+" where "+cTurno+" = ?");
 		
 		List<Venda> vendas = new ArrayList<Venda>();
 		
 		try {
-			getStatement().setInt(1, t.getId());
+			getStatement().setInt(1, id);
 			
 			setResultado(getStatement().executeQuery());
 
@@ -51,9 +52,9 @@ public class VendaDAO extends DAO {
 				v = new Venda(
 					getResultado().getInt(cId),
 					getResultado().getInt(cQuantidade),
+					getResultado().getInt(cTurno),
 					new AlunoDAO(getDbConnection()).getById(getResultado().getInt(cAluno)),
-					new UsuarioDAO(getDbConnection()).getById(getResultado().getInt(cVendedor)),
-					t					
+					new UsuarioDAO(getDbConnection()).getById(getResultado().getInt(cVendedor))
 				);
 				
 				vendas.add(v);

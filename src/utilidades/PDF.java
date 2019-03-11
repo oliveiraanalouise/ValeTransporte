@@ -10,27 +10,84 @@ import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
 import com.itextpdf.text.Font;
 import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.Phrase;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 
 import entity.Aluno;
+import entity.Turno;
 
 public class PDF {
-	public void gerarComprovanteCadastro(Aluno a, String pasta) {
-		//recebe a pasta do contexto do tomcat em formato de string
-		String nomeArquivo = pasta+"\\ComprovanteCadastro"+a.getId()+".pdf";
-		
-		Document d = new Document();
-		
+	/*
+	 * pasta do contexto do tomcat em formato de string para que depois o cliente
+	 * consiga abrir através de um link na página
+	 */	
+	private String pasta;
+	Document d = new Document();
+	Font f = new Font();
+	String nomeArquivo;
+	Paragraph paragrafo;
+	DateTime hoje = new DateTime();
+	
+	public PDF (String pasta) {
+		this.pasta = pasta;
+		f.setSize(10);
+	}
+	
+	public void relatorioTurno(Turno t) {
 		try {
-			Font f = new Font();
+			iniciarArquivo("RelatorioTurno"+t.getId()+".pdf");
+			String ano = (""+hoje.getYear()).substring(2);
+			paragrafo = new Paragraph("RELATÓRIO DO TURNO DE VENDA Nº:A/"+ano+"/"+t.getId()+"\n\n");
+			paragrafo.setAlignment(1);
+			d.add(paragrafo);
+			
+			PdfPTable tabela = new PdfPTable(4);
+			
+			PdfPCell celula = new PdfPCell(new Phrase("Dia"));
+			celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+			tabela.addCell(celula);
+			
+			celula = new PdfPCell(new Phrase("Turno"));
+			celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+			tabela.addCell(celula);
+			
+			celula = new PdfPCell(new Phrase("Recebidos"));
+			celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+			tabela.addCell(celula);
+			
+			celula = new PdfPCell(new Phrase("Devolvidos"));
+			celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+			tabela.addCell(celula);						
+			
+			String data = t.getData().getDayOfMonth() + "/" + t.getData().getMonthOfYear() + "/" + t.getData().getYear();
+			celula = new PdfPCell(new Phrase(data)); 
+			tabela.addCell(celula);
+			
+			celula = new PdfPCell(new Phrase(t.getTurno()));
+			tabela.addCell(celula);
+			
+			celula = new PdfPCell(new Phrase(""+t.getQuantValesRecebidos()));
+			tabela.addCell(celula);
+			
+			celula = new PdfPCell(new Phrase(""+t.getQuantVales()));
+			tabela.addCell(celula);
+			
+			d.add(tabela);
+		} catch (FileNotFoundException | DocumentException e) {
+			e.printStackTrace();
+		} finally {
+			d.close();
+		}
+	}
+	
+	public void comprovanteCadastro(Aluno a) {
+		try {
+			iniciarArquivo("ComprovanteCadastro"+a.getId()+".pdf");
 
-			PdfWriter.getInstance(d, new FileOutputStream(nomeArquivo));
-			d.open();
-
-			f.setSize(10);
-
-			Paragraph paragrafo = new Paragraph("MEIA-PASSAGEM ESCOLAR - VALE ESTUDANTE\nCOMPROVANTE DE CADASTRO - "
-					+ new DateTime().getYear() + "\n\n");
+			paragrafo = new Paragraph("MEIA-PASSAGEM ESCOLAR - VALE ESTUDANTE\nCOMPROVANTE DE CADASTRO - "
+					+ hoje.getYear() + "\n\n");
 			paragrafo.setAlignment(1);
 			d.add(paragrafo);
 
@@ -75,7 +132,6 @@ public class PDF {
 			paragrafo = new Paragraph();
 			paragrafo.setFont(f);
 			paragrafo.setAlignment(Element.ALIGN_JUSTIFIED_ALL);
-			DateTime hoje = new DateTime();
 			paragrafo.add(
 					"- Aceito os termos de utilização da Meia Passagem Escolar - Vale Estudante, inclusive os itens que implicam na suspensão do benefício e atesto o recebimento do Cartão de Meia Passagem Escolar.\n"
 							+ "Data: " + hoje.getDayOfMonth() + "/" + hoje.getMonthOfYear() + "/" + hoje.getYear() + " "
@@ -93,9 +149,7 @@ public class PDF {
 			e.printStackTrace();
 		} finally {
 			d.close();
-		}
-
-		
+		}		
 		
 		/* descomente esse trecho para o arquivo abrir no SERVIDOR quando for gerado
 		 * try { File arquivo = new File(nomeArquivo);
@@ -103,5 +157,12 @@ public class PDF {
 		 * Desktop.getDesktop().open(arquivo); } catch (IOException e) {
 		 * e.printStackTrace(); }
 		 */
+	}
+
+	private void iniciarArquivo(String string) throws FileNotFoundException, DocumentException {
+		nomeArquivo = pasta+"\\"+string;
+		
+		PdfWriter.getInstance(d, new FileOutputStream(nomeArquivo));
+		d.open();		
 	}
 }

@@ -6,8 +6,7 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class Venda {
-	int id, quantidade;
+	int id, quantidade, idTurno;
 	Aluno aluno;
 	Usuario vendedor;
-	Turno turno;
 }

@@ -52,7 +52,8 @@
 				Encerrar turno</button>
 		</c:if>
 	</div>
-
+	<a href="RelatorioTurno15.pdf" target="_blank">aqui</a>
+	
 	<jsp:include page="modal.jsp"></jsp:include>
 	<jsp:include page="/adds/rodape.jsp"></jsp:include>
 	<script

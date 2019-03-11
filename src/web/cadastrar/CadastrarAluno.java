@@ -59,12 +59,14 @@ public class CadastrarAluno extends Logica{
 		
 		if(!adao.exist(aluno)) {//só vai fazer cadastro caso o cpf e rg ainda não estejam registrados 
 			aluno.setId(adao.inserir(aluno));
-			String pasta = this.getServletContext().getRealPath("");
+			
 //			System.out.println(path);
 			pedido.setAttribute("ok", true);
 			pedido.setAttribute("id", aluno.getId());
 			
-			new PDF().gerarComprovanteCadastro(aluno, pasta);
+//			Gera comprovante de cadastro
+			String pasta = this.getServletContext().getRealPath("");
+			new PDF(pasta).comprovanteCadastro(aluno);
 		}
 		else pedido.setAttribute("cpfCadastrado", true);
 		

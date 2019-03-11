@@ -9,7 +9,6 @@
 
 <body>
 	<div style="position: absolute; top: 20%; width: 100%;">
-		<a href="ComprovanteCadastro9.pdf" target="_blank">doc</a>
 		<div class="container w-50">
 			<div class="text-center mb-1">
 				<img class="img-fluid" src="img/logo-ctb.png" />

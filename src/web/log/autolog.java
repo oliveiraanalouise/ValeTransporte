@@ -17,13 +17,14 @@ import entity.Venda;
 import utilidades.Cripto;
 import web.Logica;
 
-@WebServlet("/login")
-public class Login extends Logica{
+@WebServlet("/autolog")
+public class autolog extends Logica{
 	private static final long serialVersionUID = 1L;
-	
+
 	@Override
-	protected void service(HttpServletRequest pedido, HttpServletResponse resposta)	throws ServletException, IOException {
-		String email = pedido.getParameter("email");
+	protected void service(HttpServletRequest pedido, HttpServletResponse resposta)
+			throws ServletException, IOException {
+		String email = "d";
 
 		/*
 		 * Busca usuario no banco: Caso tenha usado usuário administrador geral,
@@ -35,9 +36,9 @@ public class Login extends Logica{
 
 		// criptografa senha digitada. A comparação é feita com as senhas
 		// criptografadas
-		String senha = new Cripto().criptografa(pedido.getParameter("senha"));
+		String senha = new Cripto().criptografa("teste");
 
-		System.out.println(senha + " " + u.getNome());
+		System.out.println(u.getNome()+ " " +senha);
 		if (u != null && senha.equals(u.getSenha())) {
 			// Caso o login seja válido
 		} else if (email.equals("valetransporte@ctb.ba.gov.br")
@@ -72,10 +73,16 @@ public class Login extends Logica{
 			t.resetTurno();
 		}
 			
+		List<Venda> lv = new VendaDAO().getByIdTurno(t.getId());
 		
+		for(Venda v: lv) {
+			t.vendaTicket(v.getQuantidade());
+		}
 		
 		pedido.getSession().setAttribute("turno", t);
 		// Manda mostrar a tela principal
 		redireciona("/telaprincipal", pedido, resposta);
+		
 	}
+
 }

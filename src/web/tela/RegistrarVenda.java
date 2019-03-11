@@ -16,20 +16,17 @@ import web.Logica;
 public class RegistrarVenda extends Logica{
 	private static final long serialVersionUID = 1L;
 
-	@SuppressWarnings("unchecked")
 	@Override
 	protected void service(HttpServletRequest pedido, HttpServletResponse resposta) throws ServletException, IOException {
-		List<Aluno> alunos = (List<Aluno>) pedido.getSession().getAttribute("alunos");
+		List<Aluno> alunos = new AlunoDAO().getAll();
 			
-		if(alunos == null)
-			pedido.getSession().setAttribute("alunos", new AlunoDAO().getAll());
+		pedido.getSession().setAttribute("alunos", alunos);
 		
 		try {
 			int ialuno = Integer.parseInt((String) pedido.getParameter("ialuno"));
 			
 			pedido.getSession().setAttribute("aluno", alunos.get(ialuno));
-		} catch (Exception e) {
-		}		
+		} catch (Exception e) {}		
 		
 		redireciona("logado/registrarvenda.jsp", pedido, resposta);
 	}

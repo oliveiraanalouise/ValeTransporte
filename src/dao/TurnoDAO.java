@@ -61,16 +61,20 @@ public class TurnoDAO extends DAO {
 		
 		try {						
 			setResultado(getStatement().executeQuery());
-		
+			
+			
 			if(getResultado().next()) {
+				int id = getResultado().getInt(cId);
+				
 				t = new Turno(
-					getResultado().getInt(cId),
+					id,
 					getResultado().getInt(cQuantVales),
 					new DateTime(getResultado().getDate(cData)),
 					getResultado().getString(cTurno),
 					getResultado().getBoolean(cConcluido),
 					new Usuario(getResultado().getInt(cIdVendedor),null,null,null,null),
-					new Usuario(getResultado().getInt(cIdResponsavel),null,null,null,null)
+					new Usuario(getResultado().getInt(cIdResponsavel),null,null,null,null),
+					new VendaDAO(getDbConnection()).getByIdTurno(id)
 				);
 			} else t = new Turno();
 		} catch (SQLException e) {
@@ -120,8 +124,10 @@ public class TurnoDAO extends DAO {
 			setResultado(getStatement().executeQuery());
 		
 			Turno t = null;
-			
+			int id;
 			while(getResultado().next()) {
+				id = getResultado().getInt(cId);
+						
 				t = new Turno(
 					getResultado().getInt(cId),
 					getResultado().getInt(cQuantVales),
@@ -129,7 +135,8 @@ public class TurnoDAO extends DAO {
 					getResultado().getString(cTurno),
 					getResultado().getBoolean(cConcluido),
 					new Usuario(getResultado().getInt(cIdVendedor),null,null,null,null),
-					new Usuario(getResultado().getInt(cIdResponsavel),null,null,null,null)
+					new Usuario(getResultado().getInt(cIdResponsavel),null,null,null,null),
+					new VendaDAO(getDbConnection()).getByIdTurno(id)
 				);
 				
 				turnos.add(t);

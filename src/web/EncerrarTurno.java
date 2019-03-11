@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import dao.TurnoDAO;
 import entity.Turno;
+import utilidades.PDF;
 
 @WebServlet("/encerrarturno")
 public class EncerrarTurno extends Logica{
@@ -19,11 +20,14 @@ public class EncerrarTurno extends Logica{
 		Turno t = (Turno) pedido.getSession().getAttribute("turno");
 		t.setConcluido(true);
 		
-		new TurnoDAO().atualizar(t);
+//		new TurnoDAO().atualizar(t);
 		
-		t.resetTurno();
+//		t.resetTurno();
 		
 		pedido.getSession().setAttribute("turno", t);
+		String pasta = this.getServletContext().getRealPath("");
+		
+		new PDF(pasta).relatorioTurno(t);
 		
 		redirecionaIndex(pedido, resposta);
 	}

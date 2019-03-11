@@ -1,6 +1,7 @@
 package web;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -28,7 +29,8 @@ public class IniciarTurno extends Logica{
 			(String) pedido.getParameter("periodo"),
 			false,
 			(Usuario) pedido.getSession().getAttribute("usuario"),
-			new Usuario(Integer.parseInt(pedido.getParameter("responsavel")),null,null,null,null)
+			new Usuario(Integer.parseInt(pedido.getParameter("responsavel")),null,null,null,null),
+			new ArrayList<>()
 		);
 		
 		new TurnoDAO().inserir(t);
