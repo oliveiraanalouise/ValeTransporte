@@ -25,7 +25,8 @@ public class RegistrarVenda extends Logica{
 		try {
 			int ialuno = Integer.parseInt((String) pedido.getParameter("ialuno"));
 			
-			pedido.getSession().setAttribute("aluno", alunos.get(ialuno));
+			pedido.setAttribute("aluno", alunos.get(ialuno));
+			pedido.setAttribute("ialuno", ialuno);
 		} catch (Exception e) {}		
 		
 		redireciona("logado/registrarvenda.jsp", pedido, resposta);

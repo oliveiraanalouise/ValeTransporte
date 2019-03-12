@@ -1,7 +1,6 @@
 package web.log;
 
 import java.io.IOException;
-import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,10 +9,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import dao.TurnoDAO;
 import dao.UsuarioDAO;
-import dao.VendaDAO;
 import entity.Turno;
 import entity.Usuario;
-import entity.Venda;
 import utilidades.Cripto;
 import web.Logica;
 
@@ -71,8 +68,6 @@ public class Login extends Logica{
 //			caso o último turno já esteja concluído
 			t.resetTurno();
 		}
-			
-		
 		
 		pedido.getSession().setAttribute("turno", t);
 		// Manda mostrar a tela principal

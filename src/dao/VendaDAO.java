@@ -8,7 +8,7 @@ import java.util.List;
 import entity.Venda;
 
 public class VendaDAO extends DAO {
-	private final String cVendedor = nomeTabela + ".usuario_id", 
+	private final String //cVendedor = nomeTabela + ".usuario_id", 
 						 cAluno = nomeTabela + ".aluno_id",
 						 cQuantidade = nomeTabela + ".quantidade", 
 						 cTurno = nomeTabela + ".turno_id";
@@ -22,15 +22,13 @@ public class VendaDAO extends DAO {
 	}
 
 	public void inserir(Venda v) throws SQLException {
-		iniciaConexaoComBanco("insert into " + nomeTabela + " (" + cAluno + ", " + cQuantidade + ", " + cTurno
-				+ ", " + cVendedor + ") values (?,?,?,?)");
+		iniciaConexaoComBanco("insert into " + nomeTabela + " (" + cAluno + ", " + cQuantidade + ", " + cTurno + ") values (?,?,?)");
 
 		int posicao = 1;
 
 		getStatement().setInt(posicao, v.getAluno().getId());
 		getStatement().setInt(++posicao, v.getQuantidade());
 		getStatement().setInt(++posicao, v.getIdTurno());
-		getStatement().setInt(++posicao, v.getVendedor().getId());
 
 		getStatement().executeUpdate();
 		
@@ -53,8 +51,7 @@ public class VendaDAO extends DAO {
 					getResultado().getInt(cId),
 					getResultado().getInt(cQuantidade),
 					getResultado().getInt(cTurno),
-					new AlunoDAO(getDbConnection()).getById(getResultado().getInt(cAluno)),
-					new UsuarioDAO(getDbConnection()).getById(getResultado().getInt(cVendedor))
+					new AlunoDAO(getDbConnection()).getById(getResultado().getInt(cAluno))
 				);
 				
 				vendas.add(v);

@@ -72,8 +72,8 @@ public class TurnoDAO extends DAO {
 					new DateTime(getResultado().getDate(cData)),
 					getResultado().getString(cTurno),
 					getResultado().getBoolean(cConcluido),
-					new Usuario(getResultado().getInt(cIdVendedor),null,null,null,null),
-					new Usuario(getResultado().getInt(cIdResponsavel),null,null,null,null),
+					new UsuarioDAO(getDbConnection()).getById(getResultado().getInt(cIdVendedor)),
+					new UsuarioDAO(getDbConnection()).getById(getResultado().getInt(cIdResponsavel)),
 					new VendaDAO(getDbConnection()).getByIdTurno(id)
 				);
 			} else t = new Turno();

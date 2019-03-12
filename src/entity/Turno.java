@@ -29,7 +29,14 @@ public class Turno {
 		this.quantVales -= quantidade;
 	}
 
-	public float
+	public double valorArrecadado() {
+		return (quantValesRecebidos - quantVales) * 0.25;
+	}
+	
+	public int quantidadeVendido() {
+		return quantValesRecebidos - quantVales;
+	}
+	
 	public Turno(int id2, int int1, DateTime dateTime, String string, boolean boolean1, Usuario usuario,
 			Usuario usuario2, List<Venda> byIdTurno) {
 		this.id = id2;

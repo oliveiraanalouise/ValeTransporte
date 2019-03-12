@@ -8,5 +8,5 @@ import lombok.Getter;
 public class Venda {
 	int id, quantidade, idTurno;
 	Aluno aluno;
-	Usuario vendedor;
+//	Usuario vendedor;
 }

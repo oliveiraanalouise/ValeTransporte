@@ -12,6 +12,11 @@
 			<div class="alert alert-danger show fade" role="alert">
 				Quantidade máxima de vales excedida</div>
 		</c:if>
+		
+		<c:if test="${erro}">
+			<div class="alert alert-danger show fade" role="alert">
+				Houve algum erro no cadastro da venda</div>
+		</c:if>
 
 		<c:if test="${alunoAusente}">
 			<div class="alert alert-danger show fade" role="alert">Escolha
@@ -35,7 +40,7 @@
 			<div class="container-fluid w-50">
 				<div class="form-group">
 					<input disabled required class="form-control" type="text"
-						name="nomeAluno" value="${sessionScope.aluno.stringId} - ${sessionScope.aluno.nome}"> <span>Escolha
+						name="nomeAluno" value="${aluno.stringId} - ${aluno.nome}"> <span>Escolha
 						o aluno na lista abaixo</span>
 				</div>
 				<div class="form-group">
@@ -44,7 +49,7 @@
 				</div>
 
 				<div style="display: none">
-					<input type="text" name="idAluno" value="${sessionScope.aluno.id}">
+					<input type="text" name="iAluno" value="${ialuno}">
 				</div>
 
 				<button type="submit" class="btn btn-primary btn-block btn-lg">Registrar
