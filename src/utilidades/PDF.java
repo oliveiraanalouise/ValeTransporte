@@ -17,6 +17,7 @@ import com.itextpdf.text.pdf.PdfWriter;
 
 import entity.Aluno;
 import entity.Turno;
+import entity.Venda;
 
 public class PDF {
 	/*
@@ -74,6 +75,108 @@ public class PDF {
 			celula = new PdfPCell(new Phrase(""+t.getQuantVales()));
 			tabela.addCell(celula);
 			
+			d.add(tabela);
+			
+			paragrafo = new Paragraph("\n");
+			paragrafo.setAlignment(Element.ALIGN_CENTER);
+			
+			d.add(paragrafo);
+			
+			tabela = new PdfPTable(2);
+			
+			celula = new PdfPCell(new Phrase("Total arrecadado: R$"+t.valorArrecadado()));
+			tabela.addCell(celula);
+			
+			celula = new PdfPCell(new Phrase("Total vendido: "+t.quantidadeVendido()));
+			celula.setHorizontalAlignment(Element.ALIGN_RIGHT);
+			tabela.addCell(celula);
+			
+			d.add(tabela);
+			
+			paragrafo = new Paragraph("\nVendas nesse turno\n\n");
+			paragrafo.setAlignment(Element.ALIGN_CENTER);
+			
+			d.add(paragrafo);
+			
+			tabela = new PdfPTable(2);
+			
+			Font f2 = new Font();
+			f2.setStyle(Font.BOLD);
+			
+			Phrase p = new Phrase();
+			p.setFont(f2);
+			p.add("Nome");
+			celula = new PdfPCell(p);
+			celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+			tabela.addCell(celula);
+			
+			p = new Phrase();
+			p.setFont(f2);
+			p.add("Quantidade");
+			celula = new PdfPCell(p);
+			celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+			tabela.addCell(celula);
+			
+			for(Venda v : t.getVendas()) {
+				celula = new PdfPCell(new Phrase(v.getAluno().getNome()));
+				tabela.addCell(celula);
+				
+				celula = new PdfPCell(new Phrase("" +v.getQuantidade()));
+				celula.setHorizontalAlignment(Element.ALIGN_RIGHT);
+				tabela.addCell(celula);
+			}
+			
+			d.add(tabela);
+			
+			paragrafo = new Paragraph("\n");
+			paragrafo.setAlignment(Element.ALIGN_CENTER);
+			
+			d.add(paragrafo);
+			
+			tabela = new PdfPTable(2);
+			
+			for(int i = 0; i<2; ++i) {
+				celula = new PdfPCell(new Phrase("______________________________"));
+				celula.setBorder(PdfPCell.NO_BORDER);
+				celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+				tabela.addCell(celula);
+			}
+			
+			p = new Phrase();
+			p.setFont(f2);
+			p.add(""+t.getVendedor().getNome());
+			celula = new PdfPCell(p);
+			celula.setBorder(PdfPCell.NO_BORDER);
+			celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+			tabela.addCell(celula);
+			
+			p = new Phrase();
+			p.setFont(f2);
+			p.add(""+t.getResponsavel().getNome());
+			celula = new PdfPCell(p);
+			celula.setBorder(PdfPCell.NO_BORDER);
+			celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+			tabela.addCell(celula);
+			
+			f2.setSize(10);
+			
+			p = new Phrase();
+			p.setFont(f);
+			p.add("Resp. pela venda");
+			celula = new PdfPCell(p);
+			celula.setBorder(PdfPCell.NO_BORDER);
+			celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+			tabela.addCell(celula);
+			
+			p = new Phrase();
+			p.setFont(f);
+			p.add("Resp. pela conferência");
+			celula = new PdfPCell(p);
+			celula.setBorder(PdfPCell.NO_BORDER);
+			celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+			tabela.addCell(celula);
+			
+			f.setStyle(Font.ITALIC);
 			d.add(tabela);
 		} catch (FileNotFoundException | DocumentException e) {
 			e.printStackTrace();

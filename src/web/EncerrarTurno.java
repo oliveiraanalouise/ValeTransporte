@@ -7,7 +7,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import dao.TurnoDAO;
 import entity.Turno;
 import utilidades.PDF;
 
@@ -29,6 +28,7 @@ public class EncerrarTurno extends Logica{
 		
 		new PDF(pasta).relatorioTurno(t);
 		
+		pedido.setAttribute("relatorio", true);
 		redirecionaIndex(pedido, resposta);
 	}
 

@@ -4,3 +4,5 @@ build/
 teste\.pdf
 
 src/Default\.java
+
+src/web/log/autolog\.java
