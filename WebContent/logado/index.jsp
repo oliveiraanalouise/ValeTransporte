@@ -47,8 +47,9 @@
 			</c:when>
 		</c:choose>
 
-		<a class="btn btn-primary btn-block btn-lg" href="telacadastraraluno">Cadastrar aluno</a> 
 		<a class="btn btn-primary btn-block btn-lg"	href="telacadastrarescola">Cadastrar/consultar escola</a>
+		<a class="btn btn-primary btn-block btn-lg" href="telacadastraraluno">Cadastrar aluno</a> 
+		<a class="btn btn-primary btn-block btn-lg"	href="telacadastrarescola">Editar aluno</a>
 		<!-- <a class="btn btn-primary btn-block btn-lg" href="vertodosturnos">Ver turnos</a>
 		<a class="btn btn-primary btn-block btn-lg" href="">Ver vendas desse turno</a> -->
 		

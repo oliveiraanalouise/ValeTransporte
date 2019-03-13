@@ -21,7 +21,7 @@ public class EncerrarTurno extends Logica{
 		
 //		new TurnoDAO().atualizar(t);
 		
-//		t.resetTurno();
+		t.resetTurno();
 		
 		pedido.getSession().setAttribute("turno", t);
 		String pasta = this.getServletContext().getRealPath("");
