@@ -1,5 +1,6 @@
 package dao;
 
+import java.sql.Connection;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -8,7 +9,6 @@ import java.util.List;
 import org.joda.time.DateTime;
 
 import entity.Turno;
-import entity.Usuario;
 
 public class TurnoDAO extends DAO {
 	private final String 
@@ -23,6 +23,10 @@ public class TurnoDAO extends DAO {
 
 	public TurnoDAO() {
 		super("turno");
+	}
+
+	public TurnoDAO(Connection dbConnection) {
+		super("turno", dbConnection);
 	}
 
 	public void inserir(Turno t) {
@@ -134,8 +138,8 @@ public class TurnoDAO extends DAO {
 					new DateTime(getResultado().getDate(cData)),
 					getResultado().getString(cTurno),
 					getResultado().getBoolean(cConcluido),
-					new Usuario(getResultado().getInt(cIdVendedor),null,null,null,null),
-					new Usuario(getResultado().getInt(cIdResponsavel),null,null,null,null),
+					new UsuarioDAO(getDbConnection()).getById(getResultado().getInt(cIdVendedor)),
+					new UsuarioDAO(getDbConnection()).getById(getResultado().getInt(cIdResponsavel)),
 					new VendaDAO(getDbConnection()).getByIdTurno(id)
 				);
 				
@@ -145,5 +149,35 @@ public class TurnoDAO extends DAO {
 		
 		encerraConexaocomBanco();
 		return turnos;
+	}
+
+	public Turno getById(int id) {
+		iniciaConexaoComBanco("select * from " + nomeTabela + " where " + cId + " =?");
+
+		Turno t = null;
+
+		try {
+			getStatement().setInt(1, id);
+			setResultado(getStatement().executeQuery());
+
+			if (getResultado().next()) {
+				t = new Turno(
+					getResultado().getInt(cId),
+					getResultado().getInt(cQuantVales),
+					new DateTime(getResultado().getDate(cData)),
+					getResultado().getString(cTurno),
+					getResultado().getBoolean(cConcluido),
+					new UsuarioDAO(getDbConnection()).getById(getResultado().getInt(cIdVendedor)),
+					new UsuarioDAO(getDbConnection()).getById(getResultado().getInt(cIdResponsavel)),
+					new VendaDAO(getDbConnection()).getByIdTurno(id)
+				);				
+			}
+		} catch (SQLException sqle) {
+			sqle.printStackTrace();
+		}
+
+		encerraConexaocomBanco();
+		return t;
+		
 	}
 }

@@ -22,19 +22,26 @@ public class CadastrarVenda extends Logica{
 	@SuppressWarnings("unchecked")
 	@Override
 	protected void service(HttpServletRequest pedido, HttpServletResponse resposta) throws ServletException, IOException {
-		int quantValesProposta = Integer.parseInt(pedido.getParameter("quantidade"));
+		int quantValesProposta = Integer.parseInt(pedido.getParameter("quantidade")),
+			quantVendidaAoAluno = 0;
 		Turno turno = (Turno) pedido.getSession().getAttribute("turno");
 		List<Aluno> alunos = (List<Aluno>) pedido.getSession().getAttribute("alunos");
-		/*
-		 * if(turno.getQuantVales() == 0) { // não há vales disponíveis
-		 * pedido.setAttribute("zero", true); } else
-		 */if (quantValesProposta > turno.getQuantVales()) {
+		Aluno a = alunos.get(Integer.parseInt(pedido.getParameter("iAluno")));
+		List<Venda> comprasDesseAluno = new VendaDAO().getByAlunoNoMes(a);
+		
+		for (Venda v: comprasDesseAluno) {
+			quantVendidaAoAluno += v.getQuantidade();
+		}		
+		
+		if (quantValesProposta > turno.getQuantVales()) {
 //			quantidade de vales for maior que a disponível
 			pedido.setAttribute("quantMax", true);
-		} else {
-			try {
-				Aluno a = alunos.get(Integer.parseInt(pedido.getParameter("iAluno")));
-				
+			
+		} else if(quantVendidaAoAluno > 50) {
+			pedido.setAttribute("quantmaxaluno", true);
+			
+		}else {
+			try {				
 				Venda v = new Venda(
 					-1,
 					quantValesProposta,

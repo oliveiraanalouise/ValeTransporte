@@ -13,6 +13,11 @@
 				Quantidade máxima de vales excedida</div>
 		</c:if>
 		
+		<c:if test="${quantmaxaluno}">
+			<div class="alert alert-danger show fade" role="alert">
+				Aluno já comprou 50 vales nesse mês</div>
+		</c:if>
+		
 		<c:if test="${erro}">
 			<div class="alert alert-danger show fade" role="alert">
 				Houve algum erro no cadastro da venda</div>
