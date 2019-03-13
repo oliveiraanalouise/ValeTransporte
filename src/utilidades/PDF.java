@@ -22,7 +22,7 @@ import entity.Venda;
 public class PDF {
 	/*
 	 * pasta do contexto do tomcat em formato de string para que depois o cliente
-	 * consiga abrir através de um link na página
+	 * consiga abrir atravÃ©s de um link na pÃ¡gina
 	 */	
 	private String pasta;
 	Document d = new Document();
@@ -40,7 +40,7 @@ public class PDF {
 		try {
 			iniciarArquivo("RelatorioTurno"+t.getId()+".pdf");
 			String ano = (""+hoje.getYear()).substring(2);
-			paragrafo = new Paragraph("RELATÓRIO DO TURNO DE VENDA Nº:A/"+ano+"/"+t.getId()+"\n\n");
+			paragrafo = new Paragraph("RELATï¿½RIO DO TURNO DE VENDA Nï¿½:A/"+ano+"/"+t.getId()+"\n\n");
 			paragrafo.setAlignment(1);
 			d.add(paragrafo);
 			
@@ -84,7 +84,7 @@ public class PDF {
 			
 			tabela = new PdfPTable(2);
 			
-			celula = new PdfPCell(new Phrase("Total arrecadado: R$"+t.valorArrecadado()));
+			celula = new PdfPCell(new Phrase("Total arrecadado: R$"+t.valorArrecadadoAsString()));
 			tabela.addCell(celula);
 			
 			celula = new PdfPCell(new Phrase("Total vendido: "+t.quantidadeVendido()));
@@ -170,7 +170,7 @@ public class PDF {
 			
 			p = new Phrase();
 			p.setFont(f);
-			p.add("Resp. pela conferência");
+			p.add("Resp. pela conferï¿½ncia");
 			celula = new PdfPCell(p);
 			celula.setBorder(PdfPCell.NO_BORDER);
 			celula.setHorizontalAlignment(Element.ALIGN_CENTER);
@@ -188,66 +188,68 @@ public class PDF {
 	public void comprovanteCadastro(Aluno a) {
 		try {
 			iniciarArquivo("ComprovanteCadastro"+a.getId()+".pdf");
-
-			paragrafo = new Paragraph("MEIA-PASSAGEM ESCOLAR - VALE ESTUDANTE\nCOMPROVANTE DE CADASTRO - "
-					+ hoje.getYear() + "\n\n");
-			paragrafo.setAlignment(1);
-			d.add(paragrafo);
-
-			paragrafo = new Paragraph();
-			paragrafo.setFont(f);
-			paragrafo.setAlignment(Element.ALIGN_JUSTIFIED_ALL);
-			paragrafo.add("Id: " + a.getStringId() + "         RG: " + a.getRg() + "         Idade: " + a.getIdade()
-					+ " anos         Limite Mensal: 50 vales\n");
-			d.add(paragrafo);
-
-			paragrafo = new Paragraph();
-			paragrafo.setFont(f);
-			paragrafo.add("Nome: " + a.getNome() + " " + "                                Bairro: " + a.getBairro()
-					+ "\n" + "Escola: " + a.getEscola().getNome() + "  na localidade " + a.getEscola().getBairro());
-			d.add(paragrafo);
-
-			paragrafo = new Paragraph();
-
-			paragrafo.setAlignment(Element.ALIGN_CENTER);
-			paragrafo.add("TERMO DE UTILIZAÇÃO");
-			d.add(paragrafo);
-
-			paragrafo = new Paragraph();
-			paragrafo.setFont(f);
-			paragrafo.setAlignment(Element.ALIGN_JUSTIFIED);
-			paragrafo.add("- Estudantes que não terão direito ao benefício da Meia Passagem Escolar - Vale Estudante:\n"
-					+ "I. Estudantes de pós-graduação, pré-vestibulares e cursos não regulamentados pelo MEC;\n"
-					+ "II. Estudantes que já gozem da gratuidade do Sistema de Transporte Ferroviário;\n"
-					+ "II. Estudantes menores que 06 (seis) anos;\n"
-					+ "Situações que implicam na suspensão do benefício:\n"
-					+ "I. Uso por terceiros, inclusive os seus acompanhantes; II. Uso por estudantes não cadastrados; III. Comercialização.\n"
-					+ "Os beneficiários do sistema de Meia Passagem Escolar - Vale Estudante deverão apresentar o Cartão de identificação, fornecido no ato do cadastramento, no momento em que for utilizar o seu benefício.");
-			d.add(paragrafo);
-
-			paragrafo = new Paragraph();
-			paragrafo.setFont(f);
-			paragrafo.setAlignment(Element.ALIGN_CENTER);
-			paragrafo.add(
-					"- PERDA DO CARTÃO - No caso de perda ou roubo do cartão de identificação, solicitamos o Registro em Delegacia e posterior apresentação do Registro de Ocorrência");
-			d.add(paragrafo);
-
-			paragrafo = new Paragraph();
-			paragrafo.setFont(f);
-			paragrafo.setAlignment(Element.ALIGN_JUSTIFIED_ALL);
-			paragrafo.add(
-					"- Aceito os termos de utilização da Meia Passagem Escolar - Vale Estudante, inclusive os itens que implicam na suspensão do benefício e atesto o recebimento do Cartão de Meia Passagem Escolar.\n"
-							+ "Data: " + hoje.getDayOfMonth() + "/" + hoje.getMonthOfYear() + "/" + hoje.getYear() + " "
-							+ hoje.getHourOfDay() + ":" + hoje.getMinuteOfHour() + ":" + hoje.getSecondOfMinute() + ""
-							+ "     Assinatura:_________________________________________________________\n");
-			d.add(paragrafo);
-
-			paragrafo = new Paragraph();
-			paragrafo.setFont(f);
-			paragrafo.setAlignment(Element.ALIGN_CENTER);
-			paragrafo.add("          ______________________________________________________________\n"
-					+ "                        Responsável pelo cadastro\n\n");
-			d.add(paragrafo);
+			for(int i = 0; i < 2; ++i) {
+//				deve fazer duas vias: uma fica com o aluno e outra com a CTB
+				paragrafo = new Paragraph("MEIA-PASSAGEM ESCOLAR - VALE ESTUDANTE\nCOMPROVANTE DE CADASTRO - "
+						+ hoje.getYear() + "\n\n");
+				paragrafo.setAlignment(1);
+				d.add(paragrafo);
+	
+				paragrafo = new Paragraph();
+				paragrafo.setFont(f);
+				paragrafo.setAlignment(Element.ALIGN_JUSTIFIED_ALL);
+				paragrafo.add("Id: " + a.getStringId() + "         RG: " + a.getRg() + "         Idade: " + a.getIdade()
+						+ " anos         Limite Mensal: 50 vales\n");
+				d.add(paragrafo);
+	
+				paragrafo = new Paragraph();
+				paragrafo.setFont(f);
+				paragrafo.add("Nome: " + a.getNome() + " " + "                                Bairro: " + a.getBairro()
+						+ "\n" + "Escola: " + a.getEscola().getNome() + "  na localidade " + a.getEscola().getBairro());
+				d.add(paragrafo);
+	
+				paragrafo = new Paragraph();
+	
+				paragrafo.setAlignment(Element.ALIGN_CENTER);
+				paragrafo.add("TERMO DE UTILIZAï¿½ï¿½O");
+				d.add(paragrafo);
+	
+				paragrafo = new Paragraph();
+				paragrafo.setFont(f);
+				paragrafo.setAlignment(Element.ALIGN_JUSTIFIED);
+				paragrafo.add("- Estudantes que nï¿½o terï¿½o direito ao benefï¿½cio da Meia Passagem Escolar - Vale Estudante:\n"
+						+ "I. Estudantes de pï¿½s-graduaï¿½ï¿½o, prï¿½-vestibulares e cursos nï¿½o regulamentados pelo MEC;\n"
+						+ "II. Estudantes que jï¿½ gozem da gratuidade do Sistema de Transporte Ferroviï¿½rio;\n"
+						+ "II. Estudantes menores que 06 (seis) anos;\n"
+						+ "Situaï¿½ï¿½es que implicam na suspensï¿½o do benefï¿½cio:\n"
+						+ "I. Uso por terceiros, inclusive os seus acompanhantes; II. Uso por estudantes nï¿½o cadastrados; III. Comercializaï¿½ï¿½o.\n"
+						+ "Os beneficiï¿½rios do sistema de Meia Passagem Escolar - Vale Estudante deverï¿½o apresentar o Cartï¿½o de identificaï¿½ï¿½o, fornecido no ato do cadastramento, no momento em que for utilizar o seu benefï¿½cio.");
+				d.add(paragrafo);
+	
+				paragrafo = new Paragraph();
+				paragrafo.setFont(f);
+				paragrafo.setAlignment(Element.ALIGN_CENTER);
+				paragrafo.add(
+						"- PERDA DO CARTï¿½O - No caso de perda ou roubo do cartï¿½o de identificaï¿½ï¿½o, solicitamos o Registro em Delegacia e posterior apresentaï¿½ï¿½o do Registro de Ocorrï¿½ncia");
+				d.add(paragrafo);
+	
+				paragrafo = new Paragraph();
+				paragrafo.setFont(f);
+				paragrafo.setAlignment(Element.ALIGN_JUSTIFIED_ALL);
+				paragrafo.add(
+						"- Aceito os termos de utilizaï¿½ï¿½o da Meia Passagem Escolar - Vale Estudante, inclusive os itens que implicam na suspensï¿½o do benefï¿½cio e atesto o recebimento do Cartï¿½o de Meia Passagem Escolar.\n"
+								+ "Data: " + hoje.getDayOfMonth() + "/" + hoje.getMonthOfYear() + "/" + hoje.getYear() + " "
+								+ hoje.getHourOfDay() + ":" + hoje.getMinuteOfHour() + ":" + hoje.getSecondOfMinute() + ""
+								+ "     Assinatura:_________________________________________________________\n");
+				d.add(paragrafo);
+	
+				paragrafo = new Paragraph();
+				paragrafo.setFont(f);
+				paragrafo.setAlignment(Element.ALIGN_CENTER);
+				paragrafo.add("          ______________________________________________________________\n"
+						+ "                        Responsï¿½vel pelo cadastro\n\n");
+				d.add(paragrafo);
+			}
 		} catch (FileNotFoundException | DocumentException e) {
 			e.printStackTrace();
 		} finally {

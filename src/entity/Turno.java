@@ -1,5 +1,6 @@
 package entity;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.joda.time.DateTime;
@@ -8,6 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import utilidades.FormatarCampo;
 
 @NoArgsConstructor
 @Getter
@@ -33,21 +35,26 @@ public class Turno {
 		return (quantValesRecebidos - quantVales) * 0.25;
 	}
 	
+	public String valorArrecadadoAsString() {
+		BigDecimal valor = new BigDecimal(valorArrecadado());
+		return new FormatarCampo().decimalToString(valor);
+	}
+	
 	public int quantidadeVendido() {
 		return quantValesRecebidos - quantVales;
 	}
 	
-	public Turno(int id2, int int1, DateTime dateTime, String string, boolean boolean1, Usuario usuario,
-			Usuario usuario2, List<Venda> byIdTurno) {
-		this.id = id2;
-		this.quantVales = int1;
-		this.quantValesRecebidos = int1;
-		this.data = dateTime;
-		this.turno = string;
-		this.concluido = boolean1;
-		this.vendedor = usuario;
-		this.responsavel = usuario2;
-		this.vendas = byIdTurno;
+	public Turno(int id, int quantVales, DateTime data, String turno, boolean estado, Usuario vendedor,
+			Usuario responsavel, List<Venda> vendas) {
+		this.id = id;
+		this.quantVales = quantVales;
+		this.quantValesRecebidos = quantVales;
+		this.data = data;
+		this.turno = turno;
+		this.concluido = estado;
+		this.vendedor = vendedor;
+		this.responsavel = responsavel;
+		this.vendas = vendas;
 		
 		for(Venda v: vendas) {
 			vendaTicket(v.getQuantidade());
