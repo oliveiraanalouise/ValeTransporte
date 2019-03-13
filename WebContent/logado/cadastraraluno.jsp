@@ -16,6 +16,12 @@
 			</div>
 		</c:if>
 		
+		<c:if test="${idademinima}">
+			<div class="alert alert-danger show fade" role="alert">
+				Aluno não tem idade suficiente para ter vale transporte
+			</div>
+		</c:if>
+		
 		<c:if test="${ok}">
 			<div class="alert alert-success show fade" role="alert">
 				Cadastro feito com sucesso. Veja o comprovante de cadastro <a href="ComprovanteCadastro${id}.pdf" target="_blank">aqui</a>.
