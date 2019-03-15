@@ -101,4 +101,22 @@ public class UsuarioDAO extends DAO {
 		encerraConexaocomBanco();
 		return lista;
 	}
+	
+	public void inserir(Usuario u) {
+		iniciaConexaoComBanco("insert into " + nomeTabela + " (" + cNome + ", " + cLogin + ", " + cSenha + ", " + cSupervisor + ") values (?,?,?,?)");
+		
+		try {
+			int posicao = 1;
+			
+			getStatement().setString(posicao++, u.getNome());
+			getStatement().setString(posicao++, u.getLogin());
+			getStatement().setString(posicao++, u.getSenha());
+			getStatement().setInt(posicao++, Integer.parseInt(u.getSupervisor()));
+			
+			getStatement().executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+	}
 }

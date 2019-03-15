@@ -3,26 +3,20 @@
 	Confirmar código enviado por email
 -->
 
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-	  xmlns:th="http://www.thymeleaf.org"
-	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<html>
 <head>
-<meta charset="ISO-8859-1">
-<title>SGC - Recuperar senha</title>
-<link rel="stylesheet" type="text/css" href="css/vendors.min.css" />
-<link rel="stylesheet" type="text/css" href="css/algaworks.min.css" />
-<link rel="stylesheet" type="text/css" href="css/application.css" />
+<meta charset="ISO-8859-1" />
+
+<title>Recuperar senha 2 - VT</title>
+<link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
 </head>
 
 <body class="aw-layout-simple-page">
 	<div class="aw-layout-simple-page__container">
-		<div align="center">
-			<a href="sistema?logica=TelaLogin">
-				<img src="/gestaodecontratos/layout/images/logo.png" />
-			</a>			
+		<div class="text-center mb-1">
+			<img class="img-fluid" src="img/logo-ctb.png" />
 		</div>
 		<br />
 		<form action="sistema?logica=ValidarToken" method="POST"> 

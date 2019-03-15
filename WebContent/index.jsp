@@ -30,15 +30,16 @@
 					<input type="password" class="form-control" name="senha"
 						placeholder="Senha">
 				</div>
-				<div class="row justify-content-between">
+				<div class="form-group">
 					<div>
-						<button type="submit" class="btn btn-primary">Entrar</button>
-					</div>
-					<div>
-						<a href="esqueceuasenha.jsp">Esqueci minha senha</a>
-					</div>
+						<button type="submit" class="btn btn-primary btn-block">Entrar</button>
+					</div>				
 				</div>
-
+				
+				<div class="form-group row justify-content-between">
+					<span>Novo por aqui? <a href="telacadastrarusuario">Cadastre-se.</a></span>
+					<a href="esqueceuasenha.jsp">Esqueci minha senha</a>
+				</div>
 			</form>
 		</div>
 	</div>
