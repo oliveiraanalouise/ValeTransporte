@@ -1,7 +1,7 @@
 /* 
- * Classe usada para calcular a distância entre data
+ * Classe usada para calcular a distÃ¢ncia entre data
  * usada para saber quantos dias faltam para o vencimento do contrato 
- * funciona tanto com uma data específica no momento da chamada do método quanto passando uma data na instaciação do objeto
+ * funciona tanto com uma data especÃ­fica no momento da chamada do mÃ©todo quanto passando uma data na instaciaÃ§Ã£o do objeto
  */
 
 package utilidades;
@@ -17,13 +17,13 @@ public class CalcularData {
 			 outra = hoje;
 	
 	public CalcularData(DateTime proxima) {
-		//usada para setar a próxima data para referência 
+		//usada para setar a prÃ³xima data para referÃªncia 
 		this.outra = proxima;
 	}
 	
 	//retorna a quantidade de dias entre a data inserida e a data de hoje
 	public int diasEntre(DateTime data) {
-		//+ 1 pois o getDays vai até um dia antes ao dia escolhido 
+		//+ 1 pois o getDays vai atÃ© um dia antes ao dia escolhido 
 		return Days.daysBetween(hoje, data).getDays() + 1;
 	}
 	
