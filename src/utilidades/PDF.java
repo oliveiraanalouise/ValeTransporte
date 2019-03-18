@@ -1,7 +1,10 @@
 package utilidades;
 
-import java.io.FileNotFoundException;
+import java.awt.Desktop;
+import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.net.MalformedURLException;
 
 import org.joda.time.DateTime;
 
@@ -9,6 +12,7 @@ import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
 import com.itextpdf.text.Font;
+import com.itextpdf.text.Image;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.PdfPCell;
@@ -30,6 +34,7 @@ public class PDF {
 	String nomeArquivo;
 	Paragraph paragrafo;
 	DateTime hoje = new DateTime();
+	Image logoPequeno;
 	
 	public PDF (String pasta) {
 		this.pasta = pasta;
@@ -39,9 +44,12 @@ public class PDF {
 	public void relatorioTurno(Turno t) {
 		try {
 			iniciarArquivo("RelatorioTurno"+t.getId()+".pdf");
+			
+			d.add(logoPequeno);
+			
 			String ano = (""+hoje.getYear()).substring(2);
-			paragrafo = new Paragraph("RELAT�RIO DO TURNO DE VENDA N�:A/"+ano+"/"+t.getId()+"\n\n");
-			paragrafo.setAlignment(1);
+			paragrafo = new Paragraph("RELATÓRIO DO TURNO DE VENDA Nº:A/"+ano+"/"+t.getId()+"\n\n");
+			paragrafo.setAlignment(Element.ALIGN_CENTER);
 			d.add(paragrafo);
 			
 			PdfPTable tabela = new PdfPTable(4);
@@ -170,7 +178,7 @@ public class PDF {
 			
 			p = new Phrase();
 			p.setFont(f);
-			p.add("Resp. pela confer�ncia");
+			p.add("Resp. pela conferência");
 			celula = new PdfPCell(p);
 			celula.setBorder(PdfPCell.NO_BORDER);
 			celula.setHorizontalAlignment(Element.ALIGN_CENTER);
@@ -178,18 +186,23 @@ public class PDF {
 			
 			f.setStyle(Font.ITALIC);
 			d.add(tabela);
-		} catch (FileNotFoundException | DocumentException e) {
+		} catch (DocumentException | IOException e) {
 			e.printStackTrace();
 		} finally {
-			d.close();
+			fecharArquivo();
 		}
 	}
 	
 	public void comprovanteCadastro(Aluno a) {
+		FormatarCampo fc = new FormatarCampo();
+		String datahora = fc.datahoraToString(hoje);
+		
 		try {
 			iniciarArquivo("ComprovanteCadastro"+a.getId()+".pdf");
 			for(int i = 0; i < 2; ++i) {
 //				deve fazer duas vias: uma fica com o aluno e outra com a CTB
+				d.add(logoPequeno);
+				
 				paragrafo = new Paragraph("MEIA-PASSAGEM ESCOLAR - VALE ESTUDANTE\nCOMPROVANTE DE CADASTRO - "
 						+ hoje.getYear() + "\n\n");
 				paragrafo.setAlignment(1);
@@ -211,63 +224,90 @@ public class PDF {
 				paragrafo = new Paragraph();
 	
 				paragrafo.setAlignment(Element.ALIGN_CENTER);
-				paragrafo.add("TERMO DE UTILIZA��O");
+				paragrafo.add("TERMO DE UTILIZAÇÃO");
 				d.add(paragrafo);
 	
 				paragrafo = new Paragraph();
 				paragrafo.setFont(f);
 				paragrafo.setAlignment(Element.ALIGN_JUSTIFIED);
-				paragrafo.add("- Estudantes que n�o ter�o direito ao benef�cio da Meia Passagem Escolar - Vale Estudante:\n"
-						+ "I. Estudantes de p�s-gradua��o, pr�-vestibulares e cursos n�o regulamentados pelo MEC;\n"
-						+ "II. Estudantes que j� gozem da gratuidade do Sistema de Transporte Ferrovi�rio;\n"
+				paragrafo.add("- Estudantes que não terão direito ao benefício da Meia Passagem Escolar - Vale Estudante:\n"
+						+ "I. Estudantes de pós-graduação, pré-vestibulares e cursos não regulamentados pelo MEC;\n"
+						+ "II. Estudantes que já gozem da gratuidade do Sistema de Transporte Ferroviário;\n"
 						+ "II. Estudantes menores que 06 (seis) anos;\n"
-						+ "Situa��es que implicam na suspens�o do benef�cio:\n"
-						+ "I. Uso por terceiros, inclusive os seus acompanhantes; II. Uso por estudantes n�o cadastrados; III. Comercializa��o.\n"
-						+ "Os benefici�rios do sistema de Meia Passagem Escolar - Vale Estudante dever�o apresentar o Cart�o de identifica��o, fornecido no ato do cadastramento, no momento em que for utilizar o seu benef�cio.");
+						+ "Situações que implicam na suspensão do benefício:\n"
+						+ "I. Uso por terceiros, inclusive os seus acompanhantes; II. Uso por estudantes não cadastrados; III. Comercialização.\n"
+						+ "Os beneficiários do sistema de Meia Passagem Escolar - Vale Estudante deverão apresentar o Cartão de identificação, fornecido no ato do cadastramento, no momento em que for utilizar o seu benefício.");
 				d.add(paragrafo);
 	
 				paragrafo = new Paragraph();
 				paragrafo.setFont(f);
 				paragrafo.setAlignment(Element.ALIGN_CENTER);
 				paragrafo.add(
-						"- PERDA DO CART�O - No caso de perda ou roubo do cart�o de identifica��o, solicitamos o Registro em Delegacia e posterior apresenta��o do Registro de Ocorr�ncia");
+						"- PERDA DO CARTÃO - No caso de perda ou roubo do cartão de identificação, solicitamos o Registro em Delegacia e posterior apresentação do Registro de Ocorrência");
 				d.add(paragrafo);
 	
 				paragrafo = new Paragraph();
 				paragrafo.setFont(f);
 				paragrafo.setAlignment(Element.ALIGN_JUSTIFIED_ALL);
 				paragrafo.add(
-						"- Aceito os termos de utiliza��o da Meia Passagem Escolar - Vale Estudante, inclusive os itens que implicam na suspens�o do benef�cio e atesto o recebimento do Cart�o de Meia Passagem Escolar.\n"
-								+ "Data: " + hoje.getDayOfMonth() + "/" + hoje.getMonthOfYear() + "/" + hoje.getYear() + " "
-								+ hoje.getHourOfDay() + ":" + hoje.getMinuteOfHour() + ":" + hoje.getSecondOfMinute() + ""
+						"- Aceito os termos de utilização da Meia Passagem Escolar - Vale Estudante, inclusive os itens que implicam na suspensão do benefício e atesto o recebimento do Cartão de Meia Passagem Escolar.\n"
+								+ "Data: " + datahora + ""
 								+ "     Assinatura:_________________________________________________________\n");
 				d.add(paragrafo);
 	
 				paragrafo = new Paragraph();
 				paragrafo.setFont(f);
 				paragrafo.setAlignment(Element.ALIGN_CENTER);
-				paragrafo.add("          ______________________________________________________________\n"
-						+ "                        Respons�vel pelo cadastro\n\n");
+				
+				if (i == 0)
+					paragrafo.add("          ______________________________________________________________\n"
+							+ "                        Responsável pelo cadastro\n"
+							+ "_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n");
+				else 
+						paragrafo.add("          ______________________________________________________________\n"
+								+ "                        Responsável pelo cadastro\n");
+				
 				d.add(paragrafo);
 			}
-		} catch (FileNotFoundException | DocumentException e) {
+		} catch (DocumentException | IOException e) {
 			e.printStackTrace();
 		} finally {
-			d.close();
-		}		
-		
-		/* descomente esse trecho para o arquivo abrir no SERVIDOR quando for gerado
-		 * try { File arquivo = new File(nomeArquivo);
-		 * 
-		 * Desktop.getDesktop().open(arquivo); } catch (IOException e) {
-		 * e.printStackTrace(); }
-		 */
+			fecharArquivo();
+		}
 	}
+	
+	private void fecharArquivo() {
+		d.close();
+		
+		
+		/* descomente esse trecho para o arquivo abrir no SERVIDOR quando for gerado*/
+		 try { 
+			 File arquivo = new File(nomeArquivo);
+		 
+			 Desktop.getDesktop().open(arquivo); 
+		 } catch (IOException e) {
+			 e.printStackTrace(); 
+		 }
+		 
+	};
+	
 
-	private void iniciarArquivo(String string) throws FileNotFoundException, DocumentException {
-		nomeArquivo = pasta+"\\"+string;
+	private void iniciarArquivo(String string) throws DocumentException, MalformedURLException, IOException {
+		nomeArquivo = pasta+"\\WebContent\\logado\\comprovantescadastro\\"+string;
 		
 		PdfWriter.getInstance(d, new FileOutputStream(nomeArquivo));
-		d.open();		
+		d.open();
+		
+//		logoPequeno = Image.getInstance(String.format(pasta+"\\WebContent\\img\\cabecalho.png"));
+		logoPequeno = Image.getInstance(pasta+"\\WebContent\\img\\logo-ctb backup.png");
+		
+		float teste = 470;
+		float documentWidth = d.getPageSize().getWidth() - d.leftMargin() - d.rightMargin() - teste;
+		float documentHeight = d.getPageSize().getHeight() - d.topMargin() - d.bottomMargin() - teste;
+		logoPequeno.scaleToFit(documentWidth, documentHeight);
+		logoPequeno.setAlignment(Element.PARAGRAPH);
+//		logoPequeno.scaleToFit(logoPequeno.getAbsoluteX(),logoPequeno.getAbsoluteY());
+		
+		
 	}
 }
