@@ -8,14 +8,15 @@
 package utilidades;
 
 import java.math.BigDecimal;
-import java.util.Date;
+
+import org.joda.time.DateTime;
 
 public class FormatarCampo{
 
 	public FormatarCampo(){}
 	
 	public String stringToDecimal(String parameter) {
-//		Tirar pontos do valor e mudar vírgula para ponto
+//		Tirar pontos do valor e mudar vÃ­rgula para ponto
 		parameter = parameter.replace(".", "");
 		parameter = parameter.replace(",", ".");
 		
@@ -23,7 +24,7 @@ public class FormatarCampo{
 	}
 	
 	public String decimalToString(BigDecimal b) {
-//		pontos do valor e mudar vírgula para ponto
+//		pontos do valor e mudar vï¿½rgula para ponto
 		String parameter = "" + b,
 				aux = "0,00",
 				parteDecimal = null;
@@ -48,11 +49,11 @@ public class FormatarCampo{
 						break;
 						
 					case 6:
-						if(b.compareTo(new BigDecimal(0)) >= 0) //se o número for maior que zero
+						if(b.compareTo(new BigDecimal(0)) >= 0) //se o nÃºmero for maior que zero
 							aux = aux.substring(0, i) + "." + aux.substring(i, aux.length());
 						else { //se menor que zero
 							if(aux.length() != 8) 
-//								se o número for -xxxxxx.xx não deve considerar o sinal negativo
+//								se o nÃºmero for -xxxxxx.xx nï¿½o deve considerar o sinal negativo
 								aux = aux.substring(0, i) + "." + aux.substring(i, aux.length());
 						}
 						break;
@@ -76,17 +77,51 @@ public class FormatarCampo{
 		return cnpj;
 	}
 	
-	public String dataToString(Date data){
-		String antigo = "" + data,
-			   novo = "";
+	public String dataToString(DateTime data){
+		String novo = "",
+				dia = ""+data.getDayOfMonth(), mes = ""+data.getMonthOfYear();
 		
-		try {
-			novo = antigo.substring(8, 10) + "/" + antigo.substring(5, 7) + "/" + antigo.substring(0, 4);
+		if(data.getDayOfMonth() < 10) {
+			dia = "0"+dia;
+		}
+		
+		if(data.getMonthOfYear() < 10) {
+			mes = "0"+mes;
+		}
+			
+		try {			
+			novo = dia + "/" + mes + "/" + data.getYear();
 		} catch (Exception e) {
 //			e.printStackTrace();
 		}
 		
 		return novo;
+	}
+	
+	public String datahoraToString(DateTime data) {
+		String novo = dataToString(data),
+				hora = " ";
+		
+		if(data.getHourOfDay() < 10) {
+			hora = hora+"0"+data.getHourOfDay() + ":";
+		}else {
+			hora = hora+data.getHourOfDay() + ":";
+		}
+		
+		if(data.getMinuteOfHour() < 10) {
+			hora = hora+"0"+data.getMinuteOfHour() + ":";
+		}else {
+			hora = hora+data.getMinuteOfHour() + ":";
+		}
+		
+		if(data.getSecondOfMinute() < 10) {
+			hora = hora+"0"+data.getSecondOfMinute() + ":";
+		}else {
+			hora = hora+data.getSecondOfMinute();
+		}
+		
+		
+		return novo + hora;
 	}
 	
 	public String mesToInt(String mes){
@@ -97,7 +132,7 @@ public class FormatarCampo{
 		else if (mes.equalsIgnoreCase("Fevereiro"))
 			return "02";
 
-		else if (mes.equalsIgnoreCase("Março"))
+		else if (mes.equalsIgnoreCase("Marï¿½o"))
 			return "03";
 
 		else if (mes.equalsIgnoreCase("Abril"))
@@ -140,7 +175,7 @@ public class FormatarCampo{
 				return "Fevereiro";
 				
 			case 3:
-				return "Março";
+				return "MarÃ§o";
 				
 			case 4:
 				return "Abril";
