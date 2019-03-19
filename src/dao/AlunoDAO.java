@@ -17,7 +17,8 @@ public class AlunoDAO extends DAO {
 //						 cEndereco = nomeTabela + ".endereco",
 //						 cCep = nomeTabela + ".cep",
 			cBairro = nomeTabela + ".bairro", cEscola = nomeTabela + ".escola_id",
-			cDataNascimento = nomeTabela + ".nascimento";
+			cDataNascimento = nomeTabela + ".nascimento",
+			cAtivo = nomeTabela + ".ativo";
 
 	public AlunoDAO() {
 		super("aluno");
@@ -28,7 +29,7 @@ public class AlunoDAO extends DAO {
 	}
 
 	public boolean exist(Aluno aluno) {
-		// retorna se o aluno j· existe no banco atravÈs do rg e cpf
+		// retorna se o aluno j√° existe no banco atrav√©s do rg
 		iniciaConexaoComBanco("select " + cId + " from " + nomeTabela + " where "/* +cCpf+" = ? or " */ + cRg + " = ?");
 
 		boolean exist = false;
@@ -92,11 +93,12 @@ public class AlunoDAO extends DAO {
 	}
 
 	public List<Aluno> getAll() {
-		iniciaConexaoComBanco("select * from " + nomeTabela + " order by " + cNome);
+		iniciaConexaoComBanco("select * from " + nomeTabela + " where "+cAtivo+"=?" + " order by " + cNome);
 
 		List<Aluno> alunos = new ArrayList<>();
 
 		try {
+			getStatement().setBoolean(1, true);
 			setResultado(getStatement().executeQuery());
 
 			Aluno a;
@@ -146,5 +148,25 @@ public class AlunoDAO extends DAO {
 
 		encerraConexaocomBanco();
 		return a;
+	}
+
+	public void delete(Aluno a) {
+		iniciaConexaoComBanco("update "+ nomeTabela +" set "+cAtivo+"= ? where "+ cId +" = ?");
+		
+		try {
+			getStatement().setBoolean(1, false);
+			getStatement().setInt(2, a.getId());
+			getStatement().executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		
+		
+		encerraConexaocomBanco();
+	}
+
+	public void atualiza(Aluno aluno) {
+		
 	}
 }
