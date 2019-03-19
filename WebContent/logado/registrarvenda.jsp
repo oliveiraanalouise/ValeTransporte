@@ -85,7 +85,7 @@
 					varStatus="posicao">
 					<tr>
 						<td><a href="telaregistrarvenda?ialuno=${posicao.index}"
-							class="btn btn-outline-primary btn-sm">Escolher</a></td>
+							class="btn btn-outline-primary btn-sm"><img src="img/escolher.png" class="img-fluid"></a></td>
 						<td>${aluno.stringId}</td>
 						<td>${aluno.nome}</td>
 						<td>${aluno.bairro}</td>
