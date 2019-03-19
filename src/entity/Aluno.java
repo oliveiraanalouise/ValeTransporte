@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import utilidades.CalcularData;
+import utilidades.FormatarCampo;
 
 @Getter
 @AllArgsConstructor
@@ -14,7 +15,7 @@ import utilidades.CalcularData;
 public class Aluno {
 	@Setter
 	int id;
-	String nome, rg, /* cpf,  endereço, cep,*/ bairro;
+	String nome, rg, bairro;
 	Escola escola;
 	private DateTime dataNascimento;
 	
@@ -33,5 +34,9 @@ public class Aluno {
 			default:
 				return ""+this.id;
 		}		 
+	}
+	
+	public String getStringDataNascimento() {
+		return new FormatarCampo().dataToString(dataNascimento);
 	}
 }
