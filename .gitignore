@@ -8,7 +8,10 @@ src/Default\.java
 
 src/web/log/autolog\.java
 *.pdf
+<<<<<<< HEAD
 *.pdf
 src/web/log/autologb.java
 =======
 >>>>>>> parent of b6c2ce3... 12/03/2019 - Gera relatório de turno
+=======
+>>>>>>> parent of 917c2dd... backup

@@ -1,5 +1,7 @@
 package utilidades;
 
+import java.awt.Desktop;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -282,25 +284,25 @@ public class PDF {
 		
 		
 		/* descomente esse trecho para o arquivo abrir no SERVIDOR quando for gerado*/
-//		 try { 
-//			 File arquivo = new File(nomeArquivo);
-//		 
-//			 Desktop.getDesktop().open(arquivo); 
-//		 } catch (IOException e) {
-//			 e.printStackTrace(); 
-//		 }
+		 try { 
+			 File arquivo = new File(nomeArquivo);
+		 
+			 Desktop.getDesktop().open(arquivo); 
+		 } catch (IOException e) {
+			 e.printStackTrace(); 
+		 }
 		 
 	};
 	
 
 	private void iniciarArquivo(String string) throws DocumentException, MalformedURLException, IOException {
-		nomeArquivo = pasta+"WebContent\\"+string;
+		nomeArquivo = pasta+"\\WebContent\\logado\\comprovantescadastro\\"+string;
 		
 		PdfWriter.getInstance(d, new FileOutputStream(nomeArquivo));
 		d.open();
 		
 //		logoPequeno = Image.getInstance(String.format(pasta+"\\WebContent\\img\\cabecalho.png"));
-		logoPequeno = Image.getInstance(pasta+"WebContent\\img\\logo-ctb backup.png");
+		logoPequeno = Image.getInstance(pasta+"\\WebContent\\img\\logo-ctb backup.png");
 		
 		float teste = 470;
 		float documentWidth = d.getPageSize().getWidth() - d.leftMargin() - d.rightMargin() - teste;
