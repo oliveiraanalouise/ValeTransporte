@@ -161,12 +161,27 @@ public class AlunoDAO extends DAO {
 			e.printStackTrace();
 		}
 		
-		
-		
 		encerraConexaocomBanco();
 	}
 
 	public void atualiza(Aluno aluno) {
+		iniciaConexaoComBanco("update " + nomeTabela + " set " + cNome + "=?, " + cRg + "=?, " + cEscola + "=?, " + cBairro + "=?, " + cDataNascimento + "=? where " + cId + " = ?");
 		
+		try {
+			int posicao = 1;
+		
+			getStatement().setString(posicao, aluno.getNome());
+			getStatement().setString(++posicao, aluno.getRg());
+			getStatement().setInt(++posicao, aluno.getEscola().getId());
+			getStatement().setString(++posicao, aluno.getBairro());
+			getStatement().setDate(++posicao, new Date(aluno.getDataNascimento().toDate().getTime()));
+			getStatement().setInt(++posicao, aluno.getId());
+			
+			getStatement().executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		encerraConexaocomBanco();		
 	}
 }

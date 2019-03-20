@@ -13,8 +13,10 @@ import javax.servlet.http.HttpServletResponse;
 import org.joda.time.DateTime;
 
 import dao.AlunoDAO;
+import dao.EscolaDAO;
 import entity.Aluno;
 import entity.Escola;
+import utilidades.CalcularData;
 import web.Logica;
 
 @WebServlet("/editaraluno")
@@ -27,41 +29,49 @@ public class EditarAluno extends Logica{
 	protected void service(HttpServletRequest pedido, HttpServletResponse resposta) throws ServletException, IOException {
 		AlunoDAO adao = new AlunoDAO();
 		DateTime nascimento = null;
-		int idEscola, id = 0;
+		int iEscola, id = 0;
 		List<Escola> escolas = (List<Escola>) pedido.getSession().getAttribute("escolas");
 //		Escola e = new Escola();
 		Aluno aluno;
-		
+		String data = pedido.getParameter("nascimento");
+				
 		try {
-			nascimento = new DateTime(new SimpleDateFormat(formatoData).parse(pedido.getParameter("nascimento")));
+			nascimento = new DateTime(new SimpleDateFormat(formatoData).parse(data));
 		} catch (ParseException e1) {
-			// TODO Auto-generated catch block
+//			if(data.)
 			e1.printStackTrace();
-		}		
-		
-		try {
-			id = Integer.parseInt(pedido.getParameter("id"));
-		} catch (NumberFormatException e) {
-			e.printStackTrace();
-		}		
-		
-		try {
-			idEscola = Integer.parseInt(pedido.getParameter("escola"));
-		} catch (NumberFormatException nfe) {
-			idEscola = -1;			
 		}
 		
-		aluno = new Aluno(
-			id,
-			pedido.getParameter("nome"),
-			pedido.getParameter("rg"),
-			pedido.getParameter("bairro"),
-			escolas.get(idEscola),
-			new DateTime(nascimento)
-		);			
-		
-		adao.atualiza(aluno);
-		
+		if(new CalcularData(nascimento).anosEntre()>5) {//idade mínima para um aluno		
+			if(escolas == null) {
+				escolas = new EscolaDAO().getAll();
+			}
+			
+			try {
+				id = Integer.parseInt(pedido.getParameter("id"));
+			} catch (NumberFormatException e) {
+				e.printStackTrace();
+			}		
+			
+			try {
+				iEscola = Integer.parseInt(pedido.getParameter("escola"));
+			} catch (NumberFormatException nfe) {
+				iEscola = -1;			
+			}
+			
+			aluno = new Aluno(
+				id,
+				pedido.getParameter("nome"),
+				pedido.getParameter("rg"),
+				pedido.getParameter("bairro"),
+				escolas.get(iEscola),
+				new DateTime(nascimento)
+			);			
+			
+			adao.atualiza(aluno);
+		} else {
+			pedido.setAttribute("idademinima", true);
+		}
 		redireciona("telaeditaraluno", pedido, resposta);
 	}
 }

@@ -6,7 +6,11 @@
 </head>
 <body>
 	<jsp:include page="/adds/navbar.jsp"></jsp:include>
-
+	<c:if test="${idademinima}">
+		<div class="alert alert-danger show fade" role="alert">
+			Aluno não tem idade suficiente para ter vale transporte
+		</div>
+	</c:if>
 	<div class="form-group input-group">
 		<span class="input-group-addon"><i class=""></i></span> <input
 			name="consulta" id="txt_consulta" placeholder="Procurar aluno"
@@ -20,6 +24,7 @@
 				<th>Bairro</th>
 				<th>RG</th>
 				<th>Escola</th>
+				<th>Nascimento</th>
 				<th></th>
 				<th></th>
 
@@ -35,6 +40,7 @@
 					<td>${aluno.bairro}</td>
 					<td>${aluno.rg}</td>
 					<td>${aluno.escola.nome}</td>
+					<td>${aluno.stringDataNascimento}</td>
 					<td><a class="btn btn-outline-primary btn-block btn-sm"
 						data-toggle="modal"
 						data-target="#modalEditarAluno${posicao.index}"> <img
