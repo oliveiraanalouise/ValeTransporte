@@ -1,6 +1,6 @@
 /*
- * Super classe com dados e mÈtodos usuados por todos os DAO.
- * Todo DAO deve ser uma extens„o dessa classe. 
+ * Super classe com dados e mÔøΩtodos usuados por todos os DAO.
+ * Todo DAO deve ser uma extensÔøΩo dessa classe. 
  */
 
 package dao;
@@ -35,7 +35,7 @@ public class DAO {
 			
 	
 	protected DAO (String tabelaDB, Connection conexao){
-//		recebe a conexao de outra classe. … usada quando um DAO chama outro para evitar abertura de novas conexıes
+//		recebe a conexao de outra classe. √â usada quando um DAO chama outro para evitar abertura de novas conex√µes
 		this.nomeTabela = tabelaDB;
 		this.dbConnection = conexao;
 		this.fecharConexao = false;
@@ -48,36 +48,28 @@ public class DAO {
 	}
 
 	protected void iniciaConexaoComBanco(String sql) {
-		// inicia a conex„o com o banco de dados
+		// inicia a conex√£o com o banco de dados
 		if (dbConnection == null)
-//			sÛ inicia uma nova conex„o caso ela ainda n„o exista
+//			s√≥ inicia uma nova conex√£o caso ela ainda n√£o exista
 			this.dbConnection = new DBConnection(ip, nomeBanco, usuarioBanco, senhaBanco).getConnection();
 		
 		try {
 			statement = this.getDbConnection().prepareStatement(sql);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-	
-	/*
-	 * protected void iniciaConexaoComBanco() { // inicia a conex„o com o banco de
-	 * dados if (dbConnection == null) // sÛ inicia uma nova conex„o caso ela ainda
-	 * n„o exista this.dbConnection = new DBConnection(ip, nomeBanco, usuarioBanco,
-	 * senhaBanco).getConnection(); }
-	 */
 
 	protected void encerraConexaocomBanco() {
-		// fecha a conex„o com o banco
+		// fecha a conex√£o com o banco
 		try {
 			if(this.statement != null)
 				this.statement.close();
 			
 			if (fecharConexao){
 				/*
-				 * sÛ fecha a conex„o caso o DAO n„o seja dependente de outros
-				 * exemplo: UsuarioDAO chama SetorDAO. SetorDAO n„o fecha a conexao, ent„o essa vari·vel de controle
+				 * s√≥ fecha a conex√£o caso o DAO n√£o seja dependente de outros
+				 * exemplo: UsuarioDAO chama SetorDAO. SetorDAO n√£o fecha a conexao, ent√£o essa vari√°vel de controle
 				 * fica como falsa pois UsuarioDAO ainda precisa fazer novos acessos ao banco
 				*/
 				try {
@@ -91,7 +83,7 @@ public class DAO {
 	}
 	
 	protected int getResultSize() {
-//		retorna a quantidade de itens no resultSet apÛs uma consulta ao banco
+//		retorna a quantidade de itens no resultSet ap√≥s uma consulta ao banco
 		int item = 0;
 		
 		try {

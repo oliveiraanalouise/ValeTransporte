@@ -36,7 +36,6 @@ public class CadastrarAluno extends Logica{
 		try {
 			nascimento = new DateTime(new SimpleDateFormat(formatoData).parse(pedido.getParameter("nascimento")));
 		} catch (ParseException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}		
 		
@@ -55,7 +54,7 @@ public class CadastrarAluno extends Logica{
 			new DateTime(nascimento)
 		);				
 		
-		if(!adao.exist(aluno) && aluno.getIdade()>5) {//sÛ vai fazer cadastro caso o rg ainda n„o esteja registrado 
+		if(!adao.exist(aluno) && aluno.getIdade()>5) {//s√≥ vai fazer cadastro caso o rg ainda n√£o esteja registrado 
 			aluno.setId(adao.inserir(aluno));
 			
 			pedido.setAttribute("ok", true);
