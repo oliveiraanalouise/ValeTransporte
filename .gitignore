@@ -4,8 +4,11 @@ build/
 teste\.pdf
 
 src/Default\.java
+<<<<<<< HEAD
 
 src/web/log/autolog\.java
 *.pdf
 *.pdf
 src/web/log/autologb.java
+=======
+>>>>>>> parent of b6c2ce3... 12/03/2019 - Gera relatório de turno

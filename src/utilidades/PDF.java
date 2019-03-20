@@ -19,7 +19,6 @@ import com.itextpdf.text.pdf.PdfWriter;
 
 import entity.Aluno;
 import entity.Turno;
-import entity.Venda;
 
 public class PDF {
 	/*
@@ -82,6 +81,7 @@ public class PDF {
 			tabela.addCell(celula);
 			
 			d.add(tabela);
+<<<<<<< HEAD
 			
 			paragrafo = new Paragraph("\n");
 			paragrafo.setAlignment(Element.ALIGN_CENTER);
@@ -185,6 +185,9 @@ public class PDF {
 			f.setStyle(Font.ITALIC);
 			d.add(tabela);
 		} catch (DocumentException | IOException e) {
+=======
+		} catch (FileNotFoundException | DocumentException e) {
+>>>>>>> parent of b6c2ce3... 12/03/2019 - Gera relatório de turno
 			e.printStackTrace();
 		} finally {
 			fecharArquivo();

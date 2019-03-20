@@ -17,12 +17,6 @@
 					data-target="#modalEncerrarTurno">Encerre</a> seu turno agora
 			</div>
 		</c:if>
-		
-		<c:if test="${relatorio}">
-			<div class="alert alert-info show fade" role="alert">
-				Turno encerrado. Veja <a href="RelatorioTurno${sessionScope.turno.id}.pdf" target="_blank">aqui</a> o relatório.
-			</div>
-		</c:if>
 	</div>
 
 	<div class="container-fluid w-50">
@@ -59,6 +53,7 @@
 				Encerrar turno</button>
 		</c:if>
 	</div>
+	<a href="RelatorioTurno15.pdf" target="_blank">aqui</a>
 	
 	<jsp:include page="modal.jsp"></jsp:include>
 	<jsp:include page="/adds/rodape.jsp"></jsp:include>
