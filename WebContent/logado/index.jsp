@@ -20,7 +20,7 @@
 		
 		<c:if test="${relatorio}">
 			<div class="alert alert-info show fade" role="alert">
-				Turno encerrado. Veja <a href="RelatorioTurno${sessionScope.turno.id}.pdf" target="_blank">aqui</a> o relatório.
+				Turno encerrado. Veja <a href="logado/comprovantes/RelatorioTurno${sessionScope.turno.id}.pdf" target="_blank">aqui</a> o relatório.
 			</div>
 		</c:if>
 	</div>

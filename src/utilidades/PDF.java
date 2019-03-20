@@ -1,6 +1,5 @@
 package utilidades;
 
-import java.awt.Desktop;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -28,13 +27,12 @@ public class PDF {
 	 * pasta do contexto do tomcat em formato de string para que depois o cliente
 	 * consiga abrir através de um link na página
 	 */	
-	private String pasta;
-	Document d = new Document();
-	Font f = new Font();
-	String nomeArquivo;
-	Paragraph paragrafo;
-	DateTime hoje = new DateTime();
-	Image logoPequeno;
+	private String pasta, nomeArquivo;
+	private Document d = new Document();
+	private Font f = new Font();
+	private Paragraph paragrafo;
+	private DateTime hoje = new DateTime();
+	private Image logoPequeno;
 	
 	public PDF (String pasta) {
 		this.pasta = pasta;
@@ -281,25 +279,25 @@ public class PDF {
 		
 		
 		/* descomente esse trecho para o arquivo abrir no SERVIDOR quando for gerado*/
-		 try { 
-			 File arquivo = new File(nomeArquivo);
-		 
-			 Desktop.getDesktop().open(arquivo); 
-		 } catch (IOException e) {
-			 e.printStackTrace(); 
-		 }
+		/*
+		 * try { File arquivo = new File(nomeArquivo);
+		 * 
+		 * Desktop.getDesktop().open(arquivo); } catch (IOException e) {
+		 * e.printStackTrace(); }
+		 */
 		 
 	};
 	
 
 	private void iniciarArquivo(String string) throws DocumentException, MalformedURLException, IOException {
-		nomeArquivo = pasta+"\\WebContent\\logado\\comprovantescadastro\\"+string;
+		nomeArquivo = pasta+"logado\\comprovantes\\"+string;
 		
-		PdfWriter.getInstance(d, new FileOutputStream(nomeArquivo));
+		new File(pasta+"logado\\comprovantes\\").mkdirs();
+		FileOutputStream fos =  new FileOutputStream(nomeArquivo);
+		PdfWriter.getInstance(d,fos);
 		d.open();
-		
-//		logoPequeno = Image.getInstance(String.format(pasta+"\\WebContent\\img\\cabecalho.png"));
-		logoPequeno = Image.getInstance(pasta+"\\WebContent\\img\\logo-ctb backup.png");
+
+		logoPequeno = Image.getInstance(pasta+"img\\logo-ctb pequeno.png");
 		
 		float teste = 470;
 		float documentWidth = d.getPageSize().getWidth() - d.leftMargin() - d.rightMargin() - teste;
