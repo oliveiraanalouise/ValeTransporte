@@ -23,24 +23,24 @@ public class Login extends Logica{
 		String email = pedido.getParameter("email");
 
 		/*
-		 * Busca usuario no banco: Caso tenha usado usuário administrador geral,
-		 * vai gerar uma exception de Null e esse usuário fica como nulo. É
-		 * exatamente isso que deve acontecer pois o administrador geral não
-		 * está cadastrado no banco
+		 * Busca usuario no banco: Caso tenha usado usuï¿½rio administrador geral,
+		 * vai gerar uma exception de Null e esse usuï¿½rio fica como nulo. ï¿½
+		 * exatamente isso que deve acontecer pois o administrador geral nï¿½o
+		 * estï¿½ cadastrado no banco
 		 */
 		Usuario u = new UsuarioDAO().getByEmail(email);
 
-		// criptografa senha digitada. A comparação é feita com as senhas
+		// criptografa senha digitada. A comparaï¿½ï¿½o ï¿½ feita com as senhas
 		// criptografadas
 		String senha = new Cripto().criptografa(pedido.getParameter("senha"));
 
 		System.out.println(senha + " " + u.getNome());
 		if (u != null && senha.equals(u.getSenha())) {
-			// Caso o login seja válido
+			// Caso o login seja vï¿½lido
 		} else if (email.equals("valetransporte@ctb.ba.gov.br")
 				&& senha.equals(/*"SZm6ez170MniprpMv9XhH5HVQ24JYbhs9Z9niOLSGH4="*/"")) {
-			// Desse modo, sempre existirá um usuário administrador, não
-			// importando o que há no banco de dados
+			// Desse modo, sempre existirï¿½ um usuï¿½rio administrador, nï¿½o
+			// importando o que hï¿½ no banco de dados
 
 			// Cria um objeto usuario para Administrador
 			u = new Usuario(
@@ -51,21 +51,21 @@ public class Login extends Logica{
 				"Administrador"
 			);
 		} else {
-			// Senha errada, usuário inexistente...
+			// Senha errada, usuï¿½rio inexistente...
 			pedido.getRequestDispatcher("/erro403").forward(pedido, resposta);
 		}
-		// Coloca os dados do usuário na sessão
+		// Coloca os dados do usuï¿½rio na sessï¿½o
 		pedido.getSession().setAttribute("usuario", u);
 		
 		Turno t = new TurnoDAO().getUltimo();
 
 		if(t.getTurno() == null) {
-//			no caso de não haver turnos na tabela 
+//			no caso de nï¿½o haver turnos na tabela 
 			t.setConcluido(true);
 		}
 		
 		if(t.isConcluido()) {
-//			caso o último turno já esteja concluído
+//			caso o ï¿½ltimo turno jï¿½ esteja concluï¿½do
 			t.resetTurno();
 		}
 		

@@ -24,7 +24,7 @@
 		
 		<c:if test="${ok}">
 			<div class="alert alert-success show fade" role="alert">
-				Cadastro feito com sucesso. Veja o comprovante de cadastro <a href="ComprovanteCadastro${id}.pdf" target="_blank">aqui</a>.
+				Cadastro feito com sucesso. Veja o comprovante de cadastro <a href="logado/comprovantes/ComprovanteCadastro${id}.pdf" target="_blank">aqui</a>.
 			</div>
 		</c:if>
 		
