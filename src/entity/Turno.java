@@ -15,7 +15,9 @@ import utilidades.FormatarCampo;
 @Getter
 @ToString
 public class Turno {
-	int id, quantVales, quantValesRecebidos;
+	@Setter
+	int id;
+	int quantVales, quantValesRecebidos;
 	DateTime data;
 	String turno/*, nomeVendedor*/;
 	@Setter

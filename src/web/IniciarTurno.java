@@ -33,7 +33,11 @@ public class IniciarTurno extends Logica{
 			new ArrayList<>()
 		);
 		
-		new TurnoDAO().inserir(t);
+		TurnoDAO tdao = new TurnoDAO();
+		tdao.inserir(t);
+		
+		t.setId(tdao.getUltimo().getId());
+		
 		pedido.getSession().setAttribute("turno", t);
 		
 		redirecionaIndex(pedido, resposta);

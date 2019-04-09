@@ -99,9 +99,7 @@ public class VendaDAO extends DAO {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}
-		
-		
+		}		
 		
 		encerraConexaocomBanco();
 		return vendas;

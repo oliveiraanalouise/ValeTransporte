@@ -7,6 +7,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import dao.TurnoDAO;
 import entity.Turno;
 import utilidades.PDF;
 
@@ -19,7 +20,7 @@ public class EncerrarTurno extends Logica{
 		Turno t = (Turno) pedido.getSession().getAttribute("turno");
 		t.setConcluido(true);
 		
-//		new TurnoDAO().atualizar(t);
+		new TurnoDAO().atualizar(t);
 		
 		t.resetTurno();
 		

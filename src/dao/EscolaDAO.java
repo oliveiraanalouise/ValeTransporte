@@ -22,7 +22,7 @@ public class EscolaDAO extends DAO {
 
 	public int inserir(Escola e) {
 		//retorn a id do registro que acabou de ser inserido
-		iniciaConexaoComBanco("insert into " + nomeTabela + " (" + cNome + ") values (?)");
+		iniciaConexaoComBanco("insert into " + nomeTabela + " (" + cNome+", "+cBairro + ") values (?,?)");
 
 		try {			
 			int posicao = 1;

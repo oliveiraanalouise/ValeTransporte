@@ -19,7 +19,7 @@
 		<li class="nav-item active text-white">${sessionScope.usuario.nome }</li>
 	</ul>
 	<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-		<li class="nav-item active text-white">Turno: ${sessionScope.turno.turno }</li>
+		<li class="nav-item active text-white">Turno: ${sessionScope.turno.id }/${sessionScope.turno.turno }</li>
 	</ul>
 	<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
 		<li class="nav-item active text-white">Vales: ${sessionScope.turno.quantVales }</li>

@@ -24,7 +24,7 @@ public class FormatarCampo{
 	}
 	
 	public String decimalToString(BigDecimal b) {
-//		pontos do valor e mudar v�rgula para ponto
+//		pontos do valor e mudar vírgula para ponto
 		String parameter = "" + b,
 				aux = "0,00",
 				parteDecimal = null;
@@ -64,8 +64,10 @@ public class FormatarCampo{
 			aux = aux + parteDecimal;
 			
 			
-		} catch (Exception e) {	}
-	
+		} catch (StringIndexOutOfBoundsException e) {	
+			aux = parameter+",00";
+		}
+
 		return aux;
 	}
 

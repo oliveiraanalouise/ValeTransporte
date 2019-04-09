@@ -23,24 +23,23 @@ public class Login extends Logica{
 		String email = pedido.getParameter("email");
 
 		/*
-		 * Busca usuario no banco: Caso tenha usado usu�rio administrador geral,
-		 * vai gerar uma exception de Null e esse usu�rio fica como nulo. �
-		 * exatamente isso que deve acontecer pois o administrador geral n�o
-		 * est� cadastrado no banco
+		 * Busca usuario no banco: Caso tenha usado usuário administrador geral,
+		 * vai gerar uma exception de Null e esse usuário fica como nulo. É
+		 * exatamente isso que deve acontecer pois o administrador geral não
+		 * está cadastrado no banco
 		 */
 		Usuario u = new UsuarioDAO().getByEmail(email);
 
-		// criptografa senha digitada. A compara��o � feita com as senhas
-		// criptografadas
+		// criptografa senha digitada. A comparação é feita com as senhas criptografadas
 		String senha = new Cripto().criptografa(pedido.getParameter("senha"));
 
 		System.out.println(senha + " " + u.getNome());
 		if (u != null && senha.equals(u.getSenha())) {
-			// Caso o login seja v�lido
+			// Caso o login seja válido
 		} else if (email.equals("valetransporte@ctb.ba.gov.br")
 				&& senha.equals(/*"SZm6ez170MniprpMv9XhH5HVQ24JYbhs9Z9niOLSGH4="*/"")) {
-			// Desse modo, sempre existir� um usu�rio administrador, n�o
-			// importando o que h� no banco de dados
+			// Desse modo, sempre existirá um usuário administrador, não
+						// importando o que há no banco de dados
 
 			// Cria um objeto usuario para Administrador
 			u = new Usuario(
@@ -51,26 +50,26 @@ public class Login extends Logica{
 				"Administrador"
 			);
 		} else {
-			// Senha errada, usu�rio inexistente...
+			// Senha errada, usuário inexistente...
 			pedido.getRequestDispatcher("/erro403").forward(pedido, resposta);
 		}
-		// Coloca os dados do usu�rio na sess�o
+		// Coloca os dados do usuário na sessão
 		pedido.getSession().setAttribute("usuario", u);
 		
 		Turno t = new TurnoDAO().getUltimo();
 
 		if(t.getTurno() == null) {
-//			no caso de n�o haver turnos na tabela 
+//			no caso de não haver turnos na tabela 
 			t.setConcluido(true);
 		}
 		
 		if(t.isConcluido()) {
-//			caso o �ltimo turno j� esteja conclu�do
+//			caso o último turno já esteja concluído
 			t.resetTurno();
 		}
 		
 		pedido.getSession().setAttribute("turno", t);
-		// Manda mostrar a tela principal
+//		Manda mostrar a tela principal
 		redireciona("/telaprincipal", pedido, resposta);
 	}
 }

@@ -33,20 +33,22 @@ public class CadastrarVenda extends Logica{
 			quantVendidaAoAluno += v.getQuantidade();
 		}		
 		
-		if (quantValesProposta > turno.getQuantVales()) {
-//			quantidade de vales for maior que a disponível
+		if(quantVendidaAoAluno >= 50) {
+			pedido.setAttribute("quantmaxaluno", true);			
+		} else if (quantValesProposta > turno.getQuantVales()) {
+//			quantidade de vales for maior que a disponÃ­vel
 			pedido.setAttribute("quantMax", true);
 			
-		} else if(quantVendidaAoAluno > 50) {
-			pedido.setAttribute("quantmaxaluno", true);
-			
+		} else if (quantVendidaAoAluno < 50 && quantValesProposta + quantVendidaAoAluno > 50){
+			pedido.setAttribute("quantmaxparavenda", true);
+			pedido.setAttribute("ticketsdisponiveis", 50 - quantVendidaAoAluno);
 		}else {
 			try {				
 				Venda v = new Venda(
 					-1,
 					quantValesProposta,
 					turno.getId(),					
-					a/*, comentado pois informação estava duplicada. Já há um registro de vendedor através do turno 
+					a/*, comentado pois informaÃ§Ã£o estava duplicada. JÃ¡ hÃ¡ um registro de vendedor atravÃ©s do turno 
 					(Usuario) pedido.getSession().getAttribute("usuario")*/							 
 				);
 				new VendaDAO().inserir(v);
@@ -59,13 +61,13 @@ public class CadastrarVenda extends Logica{
 
 				pedido.getSession().setAttribute("turno", turno);
 			} catch (NumberFormatException e) {
-//				caso não seja escolhido um aluno
+//				caso nï¿½o seja escolhido um aluno
 				pedido.setAttribute("alunoAusente", true);
 			} catch (SQLException sqle) {
 				pedido.setAttribute("erro", true);
 			}
 		}
-		
+
 		redireciona("telaregistrarvenda", pedido, resposta);
 	}
 }
