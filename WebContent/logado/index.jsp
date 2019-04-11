@@ -50,6 +50,7 @@
 		<a class="btn btn-primary btn-block btn-lg"	href="telacadastrarescola">Cadastrar/consultar escola</a>
 		<a class="btn btn-primary btn-block btn-lg" href="telacadastraraluno">Cadastrar aluno</a> 
 		<a class="btn btn-primary btn-block btn-lg"	href="telaeditaraluno">Editar aluno</a>
+		<a class="btn btn-primary btn-block btn-lg"	href="tela2viacomprovante">2ª via comprovante</a>
 		<!-- <a class="btn btn-primary btn-block btn-lg" href="vertodosturnos">Ver turnos</a>
 		<a class="btn btn-primary btn-block btn-lg" href="">Ver vendas desse turno</a> -->
 		
