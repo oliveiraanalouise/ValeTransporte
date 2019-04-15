@@ -16,13 +16,13 @@
 		<li class="nav-item active"><a class="nav-link" href="/valetransporte/telaprincipal">Home</a></li>
 	</ul>
 	<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-		<li class="nav-item active text-white">${sessionScope.usuario.nome }</li>
+		<li class="nav-item active text-white">${sessionScope.usuario.nome}</li>
 	</ul>
 	<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-		<li class="nav-item active text-white">Turno: ${sessionScope.turno.id }/${sessionScope.turno.turno }</li>
+		<li class="nav-item active text-white">Turno: ${sessionScope.turno.id}/${sessionScope.turno.turno }</li>
 	</ul>
 	<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-		<li class="nav-item active text-white">Vales: ${sessionScope.turno.quantVales }</li>
+		<li class="nav-item active text-white">Vales: ${sessionScope.turno.quantVales}</li>
 	</ul>
 	<ul class="navbar-nav">
 		<li class="nav-item active">

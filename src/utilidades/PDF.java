@@ -14,6 +14,7 @@ import com.itextpdf.text.Font;
 import com.itextpdf.text.Image;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
+import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
@@ -51,52 +52,27 @@ public class PDF {
 			d.add(paragrafo);
 			
 			PdfPTable tabela = new PdfPTable(4);
+
+			tabela.addCell(celula(frase("Dia")));			
+			tabela.addCell(celula(frase("Turno")));		
+			tabela.addCell(celula(frase("Recebidos")));			
+			tabela.addCell(celula(frase("Devolvidos")));		
 			
-			PdfPCell celula = new PdfPCell(new Phrase("Dia"));
-			celula.setHorizontalAlignment(Element.ALIGN_CENTER);
-			tabela.addCell(celula);
-			
-			celula = new PdfPCell(new Phrase("Turno"));
-			celula.setHorizontalAlignment(Element.ALIGN_CENTER);
-			tabela.addCell(celula);
-			
-			celula = new PdfPCell(new Phrase("Recebidos"));
-			celula.setHorizontalAlignment(Element.ALIGN_CENTER);
-			tabela.addCell(celula);
-			
-			celula = new PdfPCell(new Phrase("Devolvidos"));
-			celula.setHorizontalAlignment(Element.ALIGN_CENTER);
-			tabela.addCell(celula);						
-			
-			String data = t.getData().getDayOfMonth() + "/" + t.getData().getMonthOfYear() + "/" + t.getData().getYear();
-			celula = new PdfPCell(new Phrase(data)); 
-			tabela.addCell(celula);
-			
-			celula = new PdfPCell(new Phrase(t.getTurno()));
-			tabela.addCell(celula);
-			
-			celula = new PdfPCell(new Phrase(""+t.getQuantValesRecebidos()));
-			tabela.addCell(celula);
-			
-			celula = new PdfPCell(new Phrase(""+t.getQuantVales()));
-			tabela.addCell(celula);
+			tabela.addCell(new PdfPCell(new Phrase(t.getDataAsString())));
+			tabela.addCell(new PdfPCell(new Phrase(t.getTurno())));
+			tabela.addCell(new PdfPCell(new Phrase(""+t.getQuantValesRecebidos())));
+			tabela.addCell(new PdfPCell(new Phrase(""+t.getQuantVales())));
 			
 			d.add(tabela);
 			
 			paragrafo = new Paragraph("\n");
-			paragrafo.setAlignment(Element.ALIGN_CENTER);
 			
 			d.add(paragrafo);
 			
 			tabela = new PdfPTable(2);
-			
-			celula = new PdfPCell(new Phrase("Total arrecadado: R$"+t.valorArrecadadoAsString()));
-			tabela.addCell(celula);
-			
-			celula = new PdfPCell(new Phrase("Total vendido: "+t.quantidadeVendido()));
-			celula.setHorizontalAlignment(Element.ALIGN_RIGHT);
-			tabela.addCell(celula);
-			
+			 
+			tabela.addCell(new PdfPCell(new Phrase("Total arrecadado: R$"+t.valorArrecadadoAsString())));			
+			tabela.addCell(celula(new Phrase("Total vendido: "+t.quantidadeVendido()), Element.ALIGN_RIGHT));			
 			d.add(tabela);
 			
 			paragrafo = new Paragraph("\nVendas nesse turno\n\n");
@@ -109,78 +85,31 @@ public class PDF {
 			Font f2 = new Font();
 			f2.setStyle(Font.BOLD);
 			
-			Phrase p = new Phrase();
-			p.setFont(f2);
-			p.add("Nome");
-			celula = new PdfPCell(p);
-			celula.setHorizontalAlignment(Element.ALIGN_CENTER);
-			tabela.addCell(celula);
-			
-			p = new Phrase();
-			p.setFont(f2);
-			p.add("Quantidade");
-			celula = new PdfPCell(p);
-			celula.setHorizontalAlignment(Element.ALIGN_CENTER);
-			tabela.addCell(celula);
+			tabela.addCell(celula(frase("Nome", f2)));			
+			tabela.addCell(celula(frase("Quantidade", f2)));
 			
 			for(Venda v : t.getVendas()) {
-				celula = new PdfPCell(new Phrase(v.getAluno().getNome()));
-				tabela.addCell(celula);
-				
-				celula = new PdfPCell(new Phrase("" +v.getQuantidade()));
-				celula.setHorizontalAlignment(Element.ALIGN_RIGHT);
-				tabela.addCell(celula);
+				tabela.addCell(new PdfPCell(new Phrase(v.getAluno().getNome())));				
+				tabela.addCell(celula(frase("" +v.getQuantidade())));
 			}
 			
 			d.add(tabela);
 			
-			paragrafo = new Paragraph("\n");
-			paragrafo.setAlignment(Element.ALIGN_CENTER);
-			
+			paragrafo = new Paragraph("\n");			
 			d.add(paragrafo);
 			
 			tabela = new PdfPTable(2);
 			
 			for(int i = 0; i<2; ++i) {
-				celula = new PdfPCell(new Phrase("______________________________"));
-				celula.setBorder(PdfPCell.NO_BORDER);
-				celula.setHorizontalAlignment(Element.ALIGN_CENTER);
-				tabela.addCell(celula);
+				tabela.addCell(celulaSemBorda(new Phrase("______________________________"), Element.ALIGN_CENTER));
 			}
 			
-			p = new Phrase();
-			p.setFont(f2);
-			p.add(""+t.getVendedor().getNome());
-			celula = new PdfPCell(p);
-			celula.setBorder(PdfPCell.NO_BORDER);
-			celula.setHorizontalAlignment(Element.ALIGN_CENTER);
-			tabela.addCell(celula);
-			
-			p = new Phrase();
-			p.setFont(f2);
-			p.add(""+t.getResponsavel().getNome());
-			celula = new PdfPCell(p);
-			celula.setBorder(PdfPCell.NO_BORDER);
-			celula.setHorizontalAlignment(Element.ALIGN_CENTER);
-			tabela.addCell(celula);
-			
+			tabela.addCell(celulaSemBorda(frase(t.getVendedor().getNome(), f2), Element.ALIGN_CENTER));			
+			tabela.addCell(celulaSemBorda(frase(t.getResponsavel().getNome(),f2), Element.ALIGN_CENTER));			
 			f2.setSize(10);
 			
-			p = new Phrase();
-			p.setFont(f);
-			p.add("Resp. pela venda");
-			celula = new PdfPCell(p);
-			celula.setBorder(PdfPCell.NO_BORDER);
-			celula.setHorizontalAlignment(Element.ALIGN_CENTER);
-			tabela.addCell(celula);
-			
-			p = new Phrase();
-			p.setFont(f);
-			p.add("Resp. pela conferência");
-			celula = new PdfPCell(p);
-			celula.setBorder(PdfPCell.NO_BORDER);
-			celula.setHorizontalAlignment(Element.ALIGN_CENTER);
-			tabela.addCell(celula);
+			tabela.addCell(celulaSemBorda(frase("Resp. pela venda", f),Element.ALIGN_CENTER));
+			tabela.addCell(celulaSemBorda(frase("Resp. pela conferência", f), Element.ALIGN_CENTER));
 			
 			f.setStyle(Font.ITALIC);
 			d.add(tabela);
@@ -191,6 +120,8 @@ public class PDF {
 		}
 	}
 	
+	
+
 	public void comprovanteCadastro(Aluno a) {
 		FormatarCampo fc = new FormatarCampo();
 		String datahora = fc.datahoraToString(hoje);
@@ -279,12 +210,11 @@ public class PDF {
 		
 		
 		/* descomente esse trecho para o arquivo abrir no SERVIDOR quando for gerado*/
-		/*
-		 * try { File arquivo = new File(nomeArquivo);
-		 * 
-		 * Desktop.getDesktop().open(arquivo); } catch (IOException e) {
-		 * e.printStackTrace(); }
-		 */
+//		try { File arquivo = new File(nomeArquivo);
+//		  
+//		  Desktop.getDesktop().open(arquivo); } catch (IOException e) {
+//		  e.printStackTrace(); }
+		 
 		 
 	};
 	
@@ -292,6 +222,7 @@ public class PDF {
 	private void iniciarArquivo(String string) throws DocumentException, MalformedURLException, IOException {
 		nomeArquivo = pasta+"logado\\comprovantes\\"+string;
 		
+		System.out.println(nomeArquivo);
 		new File(pasta+"logado\\comprovantes\\").mkdirs();
 		FileOutputStream fos =  new FileOutputStream(nomeArquivo);
 		PdfWriter.getInstance(d,fos);
@@ -307,5 +238,36 @@ public class PDF {
 //		logoPequeno.scaleToFit(logoPequeno.getAbsoluteX(),logoPequeno.getAbsoluteY());
 		
 		
+	}
+	
+	private Phrase frase(String texto) {
+		return frase(texto, f);
+	}
+	
+	private Phrase frase(String texto, Font f2) {
+		Phrase frase = new Phrase();
+		frase.setFont(f2);
+		frase.add(texto);
+		
+		return frase;
+	}
+	
+	private PdfPCell celula(Phrase texto) {		
+		return celula(texto, Element.ALIGN_CENTER);
+	}
+	
+	private PdfPCell celula(Phrase texto, int alinhamento) {
+		PdfPCell celula = new PdfPCell(texto);
+		celula.setHorizontalAlignment(alinhamento);
+		
+		return celula;
+	}
+	
+	private PdfPCell celulaSemBorda(Phrase texto, int alinhamento) {
+		PdfPCell celula = new PdfPCell(texto);
+		celula.setBorder(Rectangle.NO_BORDER);
+		celula.setHorizontalAlignment(alinhamento);
+		
+		return celula;
 	}
 }

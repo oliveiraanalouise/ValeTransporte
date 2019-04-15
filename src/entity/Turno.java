@@ -46,6 +46,10 @@ public class Turno {
 		return quantValesRecebidos - quantVales;
 	}
 	
+	public String getDataAsString() {
+		return data.getDayOfMonth() + "/" + data.getMonthOfYear() + "/" + data.getYear();
+	}
+	
 	public Turno(int id, int quantVales, DateTime data, String turno, boolean estado, Usuario vendedor,
 			Usuario responsavel, List<Venda> vendas) {
 		this.id = id;
