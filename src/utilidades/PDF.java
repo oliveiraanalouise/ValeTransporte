@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.util.List;
 
 import org.joda.time.DateTime;
 
@@ -15,6 +16,8 @@ import com.itextpdf.text.Image;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.Rectangle;
+import com.itextpdf.text.pdf.BaseFont;
+import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
@@ -120,7 +123,29 @@ public class PDF {
 		}
 	}
 	
-	
+	public void gerarCarteira(List<Aluno> lista) {
+		int posX=0, posY=0;
+		try {
+			PdfContentByte cb = iniciarArquivo("carteiras.pdf").getDirectContent();
+			Paragraph p;
+			
+			for (Aluno aluno: lista) {
+				
+				BaseFont bf = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
+			    cb.saveState();
+			    cb.beginText();
+			    cb.moveText(300, 200);
+			    cb.setFontAndSize(bf, 12);
+			    cb.showText(aluno.getEscola().getNome()+" "+aluno.getEscola().getBairro());
+			    cb.endText();
+			    cb.restoreState();
+			}
+		} catch (DocumentException | IOException e) {
+			e.printStackTrace();
+		} finally {
+			fecharArquivo();
+		}
+	}
 
 	public void comprovanteCadastro(Aluno a) {
 		FormatarCampo fc = new FormatarCampo();
@@ -219,13 +244,13 @@ public class PDF {
 	};
 	
 
-	private void iniciarArquivo(String string) throws DocumentException, MalformedURLException, IOException {
+	private PdfWriter iniciarArquivo(String string) throws DocumentException, MalformedURLException, IOException {
 		nomeArquivo = pasta+"logado\\comprovantes\\"+string;
 		
 		System.out.println(nomeArquivo);
 		new File(pasta+"logado\\comprovantes\\").mkdirs();
 		FileOutputStream fos =  new FileOutputStream(nomeArquivo);
-		PdfWriter.getInstance(d,fos);
+		PdfWriter pdfWriter = PdfWriter.getInstance(d,fos);
 		d.open();
 
 		logoPequeno = Image.getInstance(pasta+"img\\logo-ctb pequeno.png");
@@ -237,7 +262,7 @@ public class PDF {
 		logoPequeno.setAlignment(Element.PARAGRAPH);
 //		logoPequeno.scaleToFit(logoPequeno.getAbsoluteX(),logoPequeno.getAbsoluteY());
 		
-		
+		return pdfWriter;
 	}
 	
 	private Phrase frase(String texto) {
