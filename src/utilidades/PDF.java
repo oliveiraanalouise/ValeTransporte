@@ -124,21 +124,22 @@ public class PDF {
 	}
 	
 	public void gerarCarteira(List<Aluno> lista) {
-		int posX=0, posY=0;
+		float posY=820, taxaLinha = 19f, taxaAluno = 113;
 		try {
 			PdfContentByte cb = iniciarArquivo("carteiras.pdf").getDirectContent();
-			Paragraph p;
-			
+
+			posY -= (taxaLinha*2);
 			for (Aluno aluno: lista) {
-				
-				BaseFont bf = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
-			    cb.saveState();
-			    cb.beginText();
-			    cb.moveText(300, 200);
-			    cb.setFontAndSize(bf, 12);
-			    cb.showText(aluno.getEscola().getNome()+" "+aluno.getEscola().getBairro());
-			    cb.endText();
-			    cb.restoreState();
+				textoCarteira(hoje.getYear()+"_"+aluno.getStringId(), 20, posY, cb, 12);
+				posY -= taxaLinha;
+				textoCarteira(aluno.getNome(), 20, posY, cb, 12);
+				posY += taxaLinha;
+				textoCarteira(aluno.getEscola().getNome(), 200, posY, cb, 9);
+				posY -= taxaLinha;
+				textoCarteira(aluno.getEscola().getBairro(), 200, posY, cb, 9);
+				posY -= taxaLinha;
+				textoCarteira(hoje.getDayOfMonth() + "  " + hoje.getMonthOfYear() + "  "+ hoje.getYear(), 200, posY, cb, 9);
+				posY -= taxaAluno;
 			}
 		} catch (DocumentException | IOException e) {
 			e.printStackTrace();
@@ -147,6 +148,17 @@ public class PDF {
 		}
 	}
 
+	private void textoCarteira(String texto, float x, float y, PdfContentByte cb, int fontSize) throws DocumentException, IOException {
+		BaseFont bf = BaseFont.createFont(BaseFont.COURIER, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
+	    cb.saveState();
+	    cb.beginText();
+	    cb.moveText(x, y);
+	    cb.setFontAndSize(bf, fontSize);
+	    cb.showText(texto);
+	    cb.endText();
+	    cb.restoreState();
+	}
+	
 	public void comprovanteCadastro(Aluno a) {
 		FormatarCampo fc = new FormatarCampo();
 		String datahora = fc.datahoraToString(hoje);
