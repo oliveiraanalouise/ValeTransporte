@@ -124,21 +124,28 @@ public class PDF {
 	}
 	
 	public void gerarCarteira(List<Aluno> lista) {
-		float posY=820, taxaLinha = 19f, taxaAluno = 113;
+		float posY=815, taxaLinha = 20f, taxaAluno = 113;
+		int tamFonteVerso = 9, tamFonteFrente = 11;
 		try {
 			PdfContentByte cb = iniciarArquivo("carteiras.pdf").getDirectContent();
-
+			Aluno aluno;
 			posY -= (taxaLinha*2);
-			for (Aluno aluno: lista) {
-				textoCarteira(hoje.getYear()+"_"+aluno.getStringId(), 20, posY, cb, 12);
+			for (int i = 0; i < lista.size(); ++i) {
+				if (i>2 && i % 5 == 0) {
+					d.newPage();
+					posY=775;
+				}
+				
+				aluno = lista.get(i);
+				textoCarteira(hoje.getYear()+"_"+aluno.getStringId(), 200, posY-50, cb, tamFonteFrente);
 				posY -= taxaLinha;
-				textoCarteira(aluno.getNome(), 20, posY, cb, 12);
+				textoCarteira(aluno.getNome(), 120, posY-50, cb, tamFonteFrente);
 				posY += taxaLinha;
-				textoCarteira(aluno.getEscola().getNome(), 200, posY, cb, 9);
+				textoCarteira(aluno.getEscola().getNome(), 375, posY, cb, tamFonteVerso);
 				posY -= taxaLinha;
-				textoCarteira(aluno.getEscola().getBairro(), 200, posY, cb, 9);
+				textoCarteira(aluno.getEscola().getBairro(), 390, posY, cb, tamFonteVerso);
 				posY -= taxaLinha;
-				textoCarteira(hoje.getDayOfMonth() + "  " + hoje.getMonthOfYear() + "  "+ hoje.getYear(), 200, posY, cb, 9);
+				textoCarteira(hoje.getDayOfMonth() + "  " + hoje.getMonthOfYear() + "   "+ hoje.getYear(), 485, posY, cb, tamFonteVerso);
 				posY -= taxaAluno;
 			}
 		} catch (DocumentException | IOException e) {
@@ -243,14 +250,17 @@ public class PDF {
 	}
 	
 	private void fecharArquivo() {
-		d.close();
+		
 		
 		
 		/* descomente esse trecho para o arquivo abrir no SERVIDOR quando for gerado*/
-//		try { File arquivo = new File(nomeArquivo);
-//		  
-//		  Desktop.getDesktop().open(arquivo); } catch (IOException e) {
-//		  e.printStackTrace(); }
+		try { 
+			d.close();
+//		  File arquivo = new File(nomeArquivo);
+//		  Desktop.getDesktop().open(arquivo); 
+		} catch (Exception e) {
+//		  e.printStackTrace(); 
+		}
 		 
 		 
 	};

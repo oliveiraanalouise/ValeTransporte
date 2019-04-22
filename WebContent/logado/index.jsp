@@ -18,6 +18,13 @@
 			</div>
 		</c:if>
 		
+		<c:if
+			test="${carteiras}">
+			<div class="alert alert-info show fade" role="alert">
+				Clique <a href="logado/comprovantes/carteiras.pdf" target="_blank">aqui</a> para ver as carteiras.
+			</div>
+		</c:if>
+		
 		<c:if test="${relatorio}">
 			<div class="alert alert-info show fade" role="alert">
 				Turno encerrado. Veja <a href="logado/comprovantes/RelatorioTurno${sessionScope.turno.id}.pdf" target="_blank">aqui</a> o relatório.
@@ -50,7 +57,8 @@
 		<a class="btn btn-primary btn-block btn-lg"	href="telacadastrarescola">Cadastrar/consultar escola</a>
 		<a class="btn btn-primary btn-block btn-lg" href="telacadastraraluno">Cadastrar aluno</a> 
 		<a class="btn btn-primary btn-block btn-lg"	href="telaeditaraluno">Editar aluno</a>
-		<a class="btn btn-primary btn-block btn-lg"	href="tela2viacomprovante">2ª via comprovante</a>
+		<a class="btn btn-primary btn-block btn-lg"	href="tela2viacomprovante">2ª via comprovante</a>		
+		<a class="btn btn-primary btn-block btn-lg"	href="gerarcarteiras">Imprimir carteiras</a>
 		<!-- <a class="btn btn-primary btn-block btn-lg" href="vertodosturnos">Ver turnos</a>
 		<a class="btn btn-primary btn-block btn-lg" href="">Ver vendas desse turno</a> -->
 		

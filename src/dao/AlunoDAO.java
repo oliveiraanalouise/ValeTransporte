@@ -18,7 +18,8 @@ public class AlunoDAO extends DAO {
 //						 cCep = nomeTabela + ".cep",
 			cBairro = nomeTabela + ".bairro", cEscola = nomeTabela + ".escola_id",
 			cDataNascimento = nomeTabela + ".nascimento",
-			cAtivo = nomeTabela + ".ativo";
+			cAtivo = nomeTabela + ".ativo",
+			cCarteira = nomeTabela +".carteiraImpressa";
 
 	public AlunoDAO() {
 		super("aluno");
@@ -165,7 +166,7 @@ public class AlunoDAO extends DAO {
 	}
 
 	public void atualiza(Aluno aluno) {
-		iniciaConexaoComBanco("update " + nomeTabela + " set " + cNome + "=?, " + cRg + "=?, " + cEscola + "=?, " + cBairro + "=?, " + cDataNascimento + "=? where " + cId + " = ?");
+		iniciaConexaoComBanco("update " + nomeTabela + " set " + cNome + "=?, " + cRg + "=?, " + cEscola + "=?, " + cBairro + "=?, " + cDataNascimento + "=?, where " + cId + " = ?");
 		
 		try {
 			int posicao = 1;
@@ -182,6 +183,60 @@ public class AlunoDAO extends DAO {
 			e.printStackTrace();
 		}
 		
+		encerraConexaocomBanco();
+	}
+	
+	public void atualiza(Aluno aluno, boolean carteira) {
+		iniciaConexaoComBanco("update " + nomeTabela + " set " + cNome + "=?, " + cRg + "=?, " + cEscola + "=?, " + cBairro + "=?, " + cDataNascimento + "=?, "+ cCarteira + "=? where " + cId + " = ?");
+		
+		try {
+			int posicao = 1;
+		
+			getStatement().setString(posicao, aluno.getNome());
+			getStatement().setString(++posicao, aluno.getRg());
+			getStatement().setInt(++posicao, aluno.getEscola().getId());
+			getStatement().setString(++posicao, aluno.getBairro());
+			getStatement().setDate(++posicao, new Date(aluno.getDataNascimento().toDate().getTime()));
+			getStatement().setBoolean(++posicao, carteira);
+			getStatement().setInt(++posicao, aluno.getId());
+			
+			getStatement().executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
 		encerraConexaocomBanco();		
+	}
+
+	public List<Aluno> getAllSemCarteira() {
+		iniciaConexaoComBanco("select * from " + nomeTabela + " where "+cAtivo+"=? and "+cCarteira+"=?" + " order by " + cNome);
+
+		List<Aluno> alunos = new ArrayList<>();
+
+		try {
+			getStatement().setBoolean(1, true); 
+			getStatement().setBoolean(2, false);
+			setResultado(getStatement().executeQuery());
+
+			Aluno a;
+
+			while (getResultado().next()) {
+				a = new Aluno(getResultado().getInt(cId), getResultado().getString(cNome),
+						getResultado().getString(cRg),
+//					getResultado().getString(cCpf),
+//					getResultado().getString(cEndereco),
+//					getResultado().getString(cCep),
+						getResultado().getString(cBairro),
+						new EscolaDAO(getDbConnection()).getById(getResultado().getInt(cEscola)),
+						new DateTime(getResultado().getDate(cDataNascimento)));
+
+				alunos.add(a);
+			}
+		} catch (SQLException sqle) {
+			sqle.printStackTrace();
+		}
+
+		encerraConexaocomBanco();
+		return alunos;
 	}
 }
